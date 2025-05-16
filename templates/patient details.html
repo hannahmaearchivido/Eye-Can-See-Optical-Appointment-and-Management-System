@@ -10,14 +10,14 @@
     <title>Eye Can See Optical - Patient Personal Information</title>  
 
     <!-- Custom fonts for this templates -->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link rel="icon" href="img/icon logo.png" type="image/png">  
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='vendor/fontawesome-free/css/all.min.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/icon logo.png') }}">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
     
     <!-- Custom styles for this templates -->
-    <link href="css/sb-admin-2.css" rel="stylesheet">
+   <link rel="stylesheet" href="{{ url_for('static', filename='css/sb-admin-2.css') }}">
 
     <style>  
         .card {  
@@ -98,8 +98,15 @@
             padding-left: 15px;
             flex-grow: 1;
         }
+
+        .card .row {
+          border-bottom: 1px solid #e0e0e0;
+          padding: 8px 0;
+        }
+
     </style>  
-</head>  
+</head>
+
 <body id="page-top">  
 
      <!-- Page Wrapper -->
@@ -110,7 +117,7 @@
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <img src="img/eye can see - logo.png" alt="Eye Can See" class="navbar-logo" />  
+                <img src="{{ url_for('static', filename='img/eye can see - logo.png') }}" alt="Eye Can See" class="navbar-logo" />
             </a>
 
             <!-- Divider -->
@@ -118,7 +125,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="{{ url_for('index') }}">
                     <i class="fas fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -128,7 +135,7 @@
 
              <!-- Nav Item - Appointment -->
             <li class="nav-item">
-                <a class="nav-link" href="appointment.html">
+                <a class="nav-link" href="{{ url_for('appointments') }}">
                     <i class="fas fa-calendar-check"></i>
                     <span>Appointment</span></a>
             </li>
@@ -138,7 +145,7 @@
 
             <!-- Nav Item - Patient Records -->
             <li class="nav-item active">
-                <a class="nav-link" href="patient record.html">
+                <a class="nav-link" href="{{ url_for('patient_records') }}">
                     <i class="fas fa-user"></i>
                     <span>Patient Records</span></a>
             </li>
@@ -148,7 +155,7 @@
 
             <!-- Nav Item - Invoice & Payments -->
             <li class="nav-item">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="{{ url_for('invoices') }}">
                     <i class="fas fa-money-bill-wave"></i>
                     <span>Invoice & Payments</span></a>
             </li>
@@ -287,7 +294,7 @@
                                 </h6>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_1.svg"
+                                        <img class="rounded-circle" src="{{ url_for('static', filename='img/undraw_profile_1.svg') }}"
                                             alt="...">
                                         <div class="status-indicator bg-success"></div>
                                     </div>
@@ -299,7 +306,7 @@
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_2.svg"
+                                        <img class="rounded-circle" src="{{ url_for('static', filename='img/undraw_profile_2.svg') }}"
                                             alt="...">
                                         <div class="status-indicator"></div>
                                     </div>
@@ -311,7 +318,7 @@
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_3.svg"
+                                        <img class="rounded-circle" src="{{ url_for('static', filename='img/undraw_profile_3.svg') }}"
                                             alt="...">
                                         <div class="status-indicator bg-warning"></div>
                                     </div>
@@ -323,7 +330,7 @@
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"
+                                        <img class="rounded-circle" src="{{ url_for('static', filename='img/undraw_profile_2.svg') }}"
                                             alt="...">
                                         <div class="status-indicator bg-success"></div>
                                     </div>
@@ -345,7 +352,7 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Hannah Archivido</span>
                                 <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                    src="{{ url_for('static', filename='img/undraw_profile.svg') }}">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -386,30 +393,36 @@
                     <!-- Content Row -->  
                     <div class="container mt-4">  
                         <div class="info-section">  
-                            <div>  
-                                <a class="btn btn-primary active" href="patient details.html">Patient Information</a>  
-                                <a class="btn btn-secondary" href="patient history.html">History</a>  
+                            <div>
+                                <a class="btn btn-primary active" href="{{ url_for('patient_details', patient_id=patient['patient_id']) }}">Patient Information</a>
+                                <a class="btn btn-secondary" href="{{ url_for('patient_history', patient_id=patient['patient_id']) }}">History</a>
+
                             </div>  
                         </div>  
                 
                         <div class="card">  
                             <div class="info-section">  
                                 <!-- Profile Section -->  
-                                <div class="info-column user-info">  
-                                    <img src="img/undraw_profile_2.svg" alt="Profile Image" class="profile-img">  
-                                    <h5 class="mt-2">Jenny Wilson</h5>  
-                                    <span class="badge badge-info">User</span>  
-                                    <small class="text-muted">Pending Verification</small>  
-                                </div>  
+                               <div class="info-column user-info">
+                                    <img
+                                        src="{{ url_for('static', filename='img/undraw_profile_1.svg') if patient.gender == 'Female' else url_for('static', filename='img/undraw_profile_2.svg') }}"
+                                        alt="Profile Image"
+                                        class="profile-img"
+                                    >
+                                    <h5 class="mt-2">{{ patient.patient_fname }} {{ patient.patient_minitial }} {{ patient.patient_lname }}</h5>
+                                    <span class="badge badge-info">User</span>
+                                    <small class="text-muted">Pending Verification</small>
+                               </div>
+
                 
                                 <div class="divider"></div> <!-- Divider -->  
                 
                                 <!-- Contact Info Section -->  
                                 <div class="info-column">  
-                                    <h6 class="font-weight-bold">Contact Info</h6>  
-                                    <p><strong>Phone:</strong> (603) 555-0123</p>  
-                                    <p><strong>Email:</strong> kathryn2993@gmail.com</p>  
-                                    <p><strong>Address:</strong> 6391 Elgin St. Celina, Delaware 10299</p>  
+                                    <h6 class="font-weight-bold">Contact Info</h6>
+                                    <p><strong>Phone:</strong> {{ patient.contact_details }} </p>
+                                    <p><strong>Email:</strong> {{ patient.email }} </p>
+                                    <p><strong>Address:</strong> {{ patient.province }}, {{ patient.city }}, {{ patient.barangay }}, {{ patient.street }}</p>
                                 </div>  
                 
                                 <div class="divider"></div> <!-- Divider -->  
@@ -417,10 +430,9 @@
                                 <!-- Additional Info Section -->  
                                 <div class="info-column">  
                                     <h6 class="font-weight-bold">Info</h6>  
-                                    <p><strong>Date of Birth:</strong> 09/23/1978</p>  
+                                    <p><strong>Date of Birth:</strong> {{ patient.birthday }} </p>
                                     <p><strong>Member Since:</strong> 11.04.2018</p>  
-                                    <p><strong>Password:</strong> **************</p>  
-                                    <p><strong>More:</strong> <a href="#" class="text-primary">Expand</a></p>  
+                                    <p><strong>Password:</strong> **************</p>
                                 </div>  
                             </div>  
                         </div>  
@@ -445,159 +457,223 @@
                     
                        <!-- Tabs Content -->  
                         <div class="tab-content" id="myTabContent">  
-                            <!-- Eye Exam Results Tab -->  
-                            <div class="tab-pane fade show active" id="eye-results" role="tabpanel" aria-labelledby="eye-results-tab">  
-                                <div class="card mt-3 p-3">  
-                                    <div class="row row-title">  
-                                        <div class="col approved"><strong>Date</strong></div>  
-                                        <div class="col approved"><strong>Vision (Left Eye)</strong></div>  
-                                        <div class="col approved"><strong>Vision (Right Eye)</strong></div>  
-                                        <div class="col approved"><strong>Comments</strong></div>  
-                                    </div>  
-                                    <div class="divider"></div>  
-                                    <div class="row">  
-                                        <div class="col">01/15/2023</div>  
-                                        <div class="col">20/20</div>  
-                                        <div class="col">20/25</div>  
-                                        <div class="col" class="result">Normal vision</div>  
-                                    </div>  
-                                    <div class="divider"></div>  
-                                    <div class="row">  
-                                        <div class="col">03/10/2023</div>  
-                                        <div class="col">20/30</div>  
-                                        <div class="col">20/30</div>  
-                                        <div class="col" class="result">Some signs of dry eye</div>  
-                                    </div>  
-                                </div>  
-                            </div>  
+                            <!-- Eye Exam Results Tab -->
+                          <div class="tab-pane fade show active" id="eye-results" role="tabpanel">
+                              <div class="card mt-3 p-3">
+                                {% for result in eye_results %}
+                                  <div class="row mb-2">
+                                      <div class="col-6"><strong>Medical History</strong></div>
+                                    <div class="col-6">{{ result.medical_history }}</div>
+                                  </div>
+                                  <div class="row mb-2">
+                                      <div class="col-6"><strong>Old Prescription (OD - right eye)</strong></div>
+                                    <div class="col-6">{{ result.old_rx_od }}</div>
+                                  </div>
+                                  <div class="row mb-2">
+                                      <div class="col-6"><strong>Old Prescription (OS - left eye)</strong></div>
+                                    <div class="col-6">{{ result.old_rx_os }}</div>
+                                  </div>
+                                  <div class="row mb-2">
+                                      <div class="col-6"><strong>Old Visual Acuity (OD - right eye)</strong></div>
+                                    <div class="col-6">{{ result.old_va_od }}</div>
+                                  </div>
+                                  <div class="row mb-2">
+                                    <div class="col-6"><strong>Old Visual Acuity (OS - left eye)</strong></div>
+                                    <div class="col-6">{{ result.old_va_os }}</div>
+                                  </div>
+                                  <div class="row mb-2">
+                                      <div class="col-6"><strong>Old ADD (OD - right eye)</strong></div>
+                                    <div class="col-6">{{ result.old_add_od }}</div>
+                                  </div>
+                                  <div class="row mb-2">
+                                    <div class="col-6"><strong>Old ADD (OS - left eye)</strong></div>
+                                    <div class="col-6">{{ result.old_add_os }}</div>
+                                  </div>
+                                  <div class="row mb-2">
+                                    <div class="col-6"><strong>Blood Pressure (B.P.)</strong></div>
+                                    <div class="col-6">{{ result.bp }}</div>
+                                  </div>
+                                  <div class="row mb-2">
+                                    <div class="col-6"><strong>Ishihara Color Test Result</strong></div>
+                                    <div class="col-6">{{ result.ishihara_result }}</div>
+                                  </div>
+                                {% endfor %}
+                              </div>
+                          </div>
 
                             <!-- Prescription Tab -->  
-                            <div class="tab-pane fade" id="prescription" role="tabpanel" aria-labelledby="prescription-tab">  
-                                <div class="card mt-3 p-3">  
-                                    <div class="row row-title">  
-                                        <div class="col approved"><strong>Date</strong></div>  
-                                        <div class="col approved"><strong>Prescription</strong></div>  
-                                        <div class="col approved"><strong>Type of Frame</strong></div>  
-                                        <div class="col approved"><strong>Type of Lens</strong></div>  
-                                        <div class="col approved"><strong>Comments</strong></div>  
-                                    </div>  
-                                    <div class="divider"></div>  
-                                    <div class="row">  
-                                        <div class="col">01/15/2023</div>  
-                                        <div class="col">None</div>  
-                                        <div class="col">Full-Rim</div>  
-                                        <div class="col">Single Vision</div>  
-                                        <div class="col">Routine exam, no prescription needed</div>  
-                                    </div>  
-                                    <div class="divider"></div>  
-                                    <div class="row">  
-                                        <div class="col">03/10/2023</div>  
-                                        <div class="col">Artificial Tears</div>  
-                                        <div class="col">Half-Rim</div>  
-                                        <div class="col">Bifocal</div>  
-                                        <div class="col">For dry eye condition</div>  
-                                    </div>  
-                                    <div class="divider"></div>  
-                                    <div class="row">  
-                                        <div class="col">05/05/2023</div>  
-                                        <div class="col">Anti-Reflective Coating</div>  
-                                        <div class="col">Full-Rim</div>  
-                                        <div class="col">Progressive</div>  
-                                        <div class="col">Recommended for better vision</div>  
-                                    </div>  
-                                </div>  
-                            </div>  
-
-                            <!-- Invoices Tab -->  
-                            <div class="tab-pane fade" id="invoices" role="tabpanel" aria-labelledby="invoices-tab">  
-                                <div class="card mt-3 p-3">  
-                                    <div class="row row-title">  
-                                        <div class="col approved"><strong>Invoice Date</strong></div>  
-                                        <div class="col approved"><strong>Amount</strong></div>  
-                                        <div class="col approved"><strong>Status</strong></div>  
-                                        <div class="col approved"><strong>Comments</strong></div>  
-                                    </div>  
-                                    <div class="divider"></div>  
-                                    <div class="row">  
-                                        <div class="col">01/16/2023</div>  
-                                        <div class="col">$150.00</div>  
-                                        <div class="col">Paid</div>  
-                                        <div class="col">Payment received via credit card</div>  
-                                    </div>  
-                                    <div class="divider"></div>  
-                                    <div class="row">  
-                                        <div class="col">03/11/2023</div>  
-                                        <div class="col">$200.00</div>  
-                                        <div class="col">Pending</div>  
-                                        <div class="col">Awaiting payment</div>  
-                                    </div>  
-                                    <div class="divider"></div>  
-                                    <div class="row">  
-                                        <div class="col">05/06/2023</div>  
-                                        <div class="col">$120.00</div>  
-                                        <div class="col">Paid</div>  
-                                        <div class="col">Payment received via bank transfer</div>  
-                                    </div>  
-                                </div>  
+                            <div class="tab-pane fade" id="prescription" role="tabpanel">
+                              <div class="card mt-3 p-3">
+                                {% for pres in prescriptions %}
+                                  <div class="row mb-2">
+                                    <div class="col-6"><strong>Date</strong></div>
+                                    <div class="col-6">{{ pres.prescription_date }}</div>
+                                  </div>
+                                  <div class="row mb-2">
+                                    <div class="col-6 fw-bold">Distance Prescription (OD)</div>
+                                    <div class="col-6">{{ pres.distance_rx_od }}</div>
+                                  </div>
+                                  <div class="row mb-2">
+                                    <div class="col-6"><strong>Distance Prescription (OS)</strong></div>
+                                    <div class="col-6">{{ pres.distance_rx_os }}</div>
+                                  </div>
+                                  <div class="row mb-2">
+                                    <div class="col-6"><strong>Contact Lens RX (OD)</strong></div>
+                                    <div class="col-6">{{ pres.contact_rx_od }}</div>
+                                  </div>
+                                  <div class="row mb-2">
+                                    <div class="col-6"><strong>Contact Lens RX (OS)</strong></div>
+                                    <div class="col-6">{{ pres.contact_rx_os }}</div>
+                                  </div>
+                                  <div class="row mb-2">
+                                    <div class="col-6"><strong>Reading RX (OD)</strong></div>
+                                    <div class="col-6">{{ pres.reading_rx_od }}</div>
+                                  </div>
+                                  <div class="row mb-2">
+                                    <div class="col-6"><strong>Reading RX (OS)</strong></div>
+                                    <div class="col-6">{{ pres.reading_rx_os }}</div>
+                                  </div>
+                                  <div class="row mb-2">
+                                    <div class="col-6"><strong>Sphere Value (OD)</strong></div>
+                                    <div class="col-6">{{ pres.sph_od }}</div>
+                                  </div>
+                                  <div class="row mb-2">
+                                    <div class="col-6"><strong>Sphere Value (OS)</strong></div>
+                                    <div class="col-6">{{ pres.sph_os }}</div>
+                                  </div>
+                                  <div class="row mb-2">
+                                    <div class="col-6"><strong>Cylinder Value (OD)</strong></div>
+                                    <div class="col-6">{{ pres.cyl_od }}</div>
+                                  </div>
+                                  <div class="row mb-2">
+                                    <div class="col-6"><strong>Cylinder Value (OS)</strong></div>
+                                    <div class="col-6">{{ pres.cyl_os }}</div>
+                                  </div>
+                                  <div class="row mb-2">
+                                    <div class="col-6"><strong>Axis (OD)</strong></div>
+                                    <div class="col-6">{{ pres.axis_od }}</div>
+                                  </div>
+                                  <div class="row mb-2">
+                                    <div class="col-6"><strong>Axis (OS)</strong></div>
+                                    <div class="col-6">{{ pres.axis_os }}</div>
+                                  </div>
+                                  <div class="row mb-2">
+                                    <div class="col-6"><strong>Visual Acuity (OD)</strong></div>
+                                    <div class="col-6">{{ pres.va_od }}</div>
+                                  </div>
+                                  <div class="row mb-2">
+                                    <div class="col-6"><strong>Visual Acuity (OS)</strong></div>
+                                    <div class="col-6">{{ pres.va_os }}</div>
+                                  </div>
+                                  <div class="row mb-2">
+                                    <div class="col-6"><strong>ADD (OD)</strong></div>
+                                    <div class="col-6">{{ pres.add_od }}</div>
+                                  </div>
+                                  <div class="row mb-2">
+                                    <div class="col-6"><strong>ADD (OS)</strong></div>
+                                    <div class="col-6">{{ pres.add_os }}</div>
+                                  </div>
+                                  <div class="row mb-2">
+                                    <div class="col-6"><strong>Monocular PD (OD)</strong></div>
+                                    <div class="col-6">{{ pres.mono_od }}</div>
+                                  </div>
+                                  <div class="row mb-2">
+                                    <div class="col-6"><strong>Monocular PD (OS)</strong></div>
+                                    <div class="col-6">{{ pres.pd_os }}</div>
+                                  </div>
+                                  <div class="row mb-2">
+                                    <div class="col-6"><strong>Segment Height (OD)</strong></div>
+                                    <div class="col-6">{{ pres.seg_ht_od }}</div>
+                                  </div>
+                                  <div class="row mb-2">
+                                    <div class="col-6"><strong>Vertical Height (OS)</strong></div>
+                                    <div class="col-6">{{ pres.vert_ht_os }}</div>
+                                  </div>
+                                  <div class="row mb-2">
+                                    <div class="col-6"><strong>Pupillary Distance (General)</strong></div>
+                                    <div class="col-6">{{ pres.pd }}</div>
+                                  </div>
+                                {% endfor %}
+                              </div>
                             </div>
+
+                           <!-- Invoices Tab -->
+                            <div class="tab-pane fade" id="invoices" role="tabpanel">
+                              <div class="card mt-3 p-3">
+                                {% for invoice in invoices %}
+                                  <div class="row mb-2">
+                                    <div class="col-6"><strong>Invoice ID</strong></div>
+                                    <div class="col-6">{{ invoice.invoice_id }}</div>
+                                  </div>
+                                  <div class="row mb-2">
+                                    <div class="col-6"><strong>Invoice Number</strong></div>
+                                    <div class="col-6">{{ invoice.invoice_number }}</div>
+                                  </div>
+                                  <div class="row mb-2">
+                                    <div class="col-6"><strong>Transaction Date</strong></div>
+                                    <div class="col-6">{{ invoice.transaction_date }}</div>
+                                  </div>
+                                  <div class="row mb-2">
+                                    <div class="col-6"><strong>Claim Date</strong></div>
+                                    <div class="col-6">{{ invoice.claim_date }}</div>
+                                  </div>
+                                  <div class="row mb-2">
+                                    <div class="col-6"><strong>Frame Price</strong></div>
+                                    <div class="col-6">₱ {{ invoice.frame_price }}</div>
+                                  </div>
+                                  <div class="row mb-2">
+                                    <div class="col-6"><strong>Lens Price</strong></div>
+                                    <div class="col-6">₱ {{ invoice.lens_price }}</div>
+                                  </div>
+                                  <div class="row mb-2">
+                                    <div class="col-6"><strong>Additional Price</strong></div>
+                                    <div class="col-6">₱ {{ invoice.additional_price }}</div>
+                                  </div>
+                                  <div class="row mb-2">
+                                    <div class="col-6"><strong>Total Amount</strong></div>
+                                    <div class="col-6">₱ {{ invoice.total_price }}</div>
+                                  </div>
+                                  <div class="row mb-2">
+                                    <div class="col-6"><strong>Downpayment</strong></div>
+                                    <div class="col-6">₱ {{ invoice.deposit_amount }}</div>
+                                  </div>
+                                  <div class="row mb-2">
+                                    <div class="col-6"><strong>Remaining Balance</strong></div>
+                                    <div class="col-6">₱ {{ invoice.balance_due }}</div>
+                                  </div>
+                                  <div class="divider my-3"></div>
+                                {% endfor %}
+                              </div>
+                            </div>
+
+
                             
                            <!-- Track Payment History Tab -->
-                            <div class="tab-pane fade" id="payment-history" role="tabpanel" aria-labelledby="payment-history-tab">
-                                <div class="card mt-3 p-3" style="background-color: #fff7f7;">
-                                    <div class="timeline">
-
-                                        <!-- Timeline item -->
-                                        <div class="timeline-item mb-4">
-                                            <div class="timeline-time">32 min ago</div>
-                                            <div class="timeline-dot bg-success"></div>
-                                            <div class="timeline-content">
-                                                <p class="mb-0"><strong>Payment of $120</strong> received via Credit Card</p>
-                                            </div>
+                            <div class="tab-pane fade" id="payment-history" role="tabpanel">
+                              <div class="card mt-3 p-3" style="background-color: #fff7f7;">
+                                <div class="timeline">
+                                  {% for invoice in invoices %}
+                                    {% for s in invoice.payment %}
+                                      <div class="timeline-item mb-4">
+                                        <div class="timeline-time">{{ s.time_ago }}</div>
+                                        <div class="timeline-dot
+                                          {% if s.payment_status == 'Partial' %}bg-warning
+                                          {% elif s.payment_status == 'Paid' %}bg-success
+                                          {% else %}bg-secondary{% endif %}">
                                         </div>
-
-                                        <div class="timeline-item mb-4">
-                                            <div class="timeline-time">56 min ago</div>
-                                            <div class="timeline-dot bg-danger"></div>
-                                            <div class="timeline-content">
-                                                <p class="mb-0"><strong>Payment of $200</strong> failed - retry pending</p>
-                                            </div>
+                                        <div class="timeline-content">
+                                          <p class="mb-0">
+                                            <strong>₱{{ s.amount_paid }}</strong> paid via {{ s.payment_method }}
+                                          </p>
+                                          <small>Status: {{ s.payment_status }} | Date Paid: {{ s.date_paid }}</small>
                                         </div>
-
-                                        <div class="timeline-item mb-4">
-                                            <div class="timeline-time">2 hrs ago</div>
-                                            <div class="timeline-dot bg-primary"></div>
-                                            <div class="timeline-content">
-                                                <p class="mb-0"><strong>Invoice #12345</strong> sent to customer</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="timeline-item mb-4">
-                                            <div class="timeline-time">1 day ago</div>
-                                            <div class="timeline-dot bg-info"></div>
-                                            <div class="timeline-content">
-                                                <p class="mb-0"><strong>Reminder email</strong> sent for outstanding balance</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="timeline-item mb-4">
-                                            <div class="timeline-time">2 days ago</div>
-                                            <div class="timeline-dot bg-warning"></div>
-                                            <div class="timeline-content">
-                                                <p class="mb-0"><strong>Partial payment of $50</strong> received</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="timeline-item">
-                                            <div class="timeline-time">4 weeks ago</div>
-                                            <div class="timeline-dot bg-dark"></div>
-                                            <div class="timeline-content">
-                                                <p class="mb-0"><strong>First invoice</strong> generated</p>
-                                            </div>
-                                        </div>
-
-                                    </div>
+                                      </div>
+                                    {% endfor %}
+                                  {% endfor %}
                                 </div>
+                              </div>
                             </div>
+
 
                         </div>  
                     </div>                      
@@ -610,6 +686,24 @@
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>  
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>  
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>  
-    </body>  
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+         <!-- Bootstrap core JavaScript-->
+    <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{{ url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{{ url_for('static', filename='js/sb-admin-2.min.js') }}"></script>
+
+    <!-- Page level plugins -->
+    <script src="{{ url_for('static', filename='vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="{{ url_for('static', filename='js/demo/datatables-demo.js') }}"></script>
+
+</body>
 </html>  
