@@ -1,37 +1,52 @@
-from flask import Flask, render_template, request  # <-- this 'request' is what you need
-import pymongo
-from pymongo import MongoClient
+import os
+import psycopg2
+
+from flask import Flask, render_template, request
+import psycopg2
+from psycopg2.extras import RealDictCursor
 from datetime import datetime, date
 
-app = Flask(__name__)
-client = MongoClient("mongodb+srv://archiannah:EyEcansEEoptical@eyecanseeoptical.aevclbc.mongodb.net/?retryWrites=true&w=majority&appName=EyeCanSeeOptical")
-db = client["EyeCanSeeOptical"]
+import calendar
 
-appointments_collection = db["appointment"]
-invoices_collection = db['invoice']  # Your MongoDB collection
+app = Flask(__name__)
+
+conn = psycopg2.connect("postgresql://postgres.mggobpvspdsuimokmlwc:EyEcansEEoptical@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres")
+cursor = conn.cursor(cursor_factory=RealDictCursor)
 
 
 @app.route('/')
 def index():
-    today_str = datetime.today().strftime('%Y-%m-%d')
+    today_str = date.today()
 
-    # Count patients added today
-    patients_today = db.patient.count_documents({'Date': today_str})
+    # Count patients added/registered today (assumes 'created_at' is a DATE or TIMESTAMP column)
+    cursor.execute("SELECT COUNT(*) FROM patient WHERE date = %s", (today_str,))
+    patients_today = cursor.fetchone()['count']
 
-    # Count appointments scheduled for today
-    appointments_today = db.appointment.count_documents({'Appointment_Date': today_str})
+    # Count appointments scheduled today
+    cursor.execute("SELECT COUNT(*) FROM appointment WHERE appointment_date = %s", (today_str,))
+    appointments_today = cursor.fetchone()['count']
 
-    # Count pending payments in today's invoices
-    pending_payments = db.invoice.count_documents({
-        'Date': today_str,
-        'Payment_Status': 'Pending'
-    })
+    # Count invoices for today with no payment marked as 'Paid'
+    cursor.execute("""
+        SELECT COUNT(*) FROM invoice
+        WHERE transaction_date = %s
+        AND NOT EXISTS (
+            SELECT 1 FROM unnest(payment) AS p
+            WHERE p->>'payment_status' = 'Paid'
+        )
+    """, (today_str,))
+    pending_payments = cursor.fetchone()['count']
 
-    # Count sales (you can define this as any invoice with full payment)
-    sales_today = db.invoice.count_documents({
-        'Date': today_str,
-        'Payment_Status': 'Paid'
-    })
+    # Count invoices for today with at least one payment marked as 'Paid'
+    cursor.execute("""
+        SELECT COUNT(*) FROM invoice
+        WHERE transaction_date = %s
+        AND EXISTS (
+            SELECT 1 FROM unnest(payment) AS p
+            WHERE p->>'payment_status' = 'Paid'
+        )
+    """, (today_str,))
+    sales_today = cursor.fetchone()['count']
 
     return render_template('index.html', dashboard={
         'patients': patients_today,
@@ -40,76 +55,137 @@ def index():
         'sales': sales_today
     })
 
-@app.route('/appointments/<status>')
-def appointments_by_status(status):
-    appointments = db.appointments.find({'status': status})
-    return render_template('appointments.html', appointments=appointments, status=status)
+
+@app.route('/appointments')
+def appointments():
+    cursor.execute("SELECT * FROM appointment")
+    appointments = cursor.fetchall()
+    return render_template("appointment.html", appointments=appointments)
 
 @app.route('/filter_appointments')
 def filter_appointments():
     status = request.args.get('status')
-    date = request.args.get('date')  # Expecting format: YYYY-MM-DD
+    appt_date = request.args.get('appointment_date')
+    query = "SELECT * FROM appointment WHERE 1=1"
+    params = []
 
-    query = {}
-    if status and status != "All":
-        query['status'] = status
-    if date:
-        query['appointment_date'] = date  # Ensure date format matches DB
+    if status and status.lower() != "all":
+        query += " AND status = %s"
+        params.append(status)
+    if appt_date:
+        query += " AND appointment_date = %s"
+        params.append(appt_date)
 
-    appointments = db.appointments.find(query)
-    return render_template('partials/_cards.html', appointments=appointments)
-
-@app.route("/appointments")
-def appointments():
-    appointments = list(appointments_collection.find())
+    cursor.execute(query, tuple(params))
+    appointments = cursor.fetchall()
     return render_template("appointment.html", appointments=appointments)
+
 
 @app.route('/patients')
 def patient_records():
     status = request.args.get('status', 'All')
     if status == 'All':
-        patients = list(db.patient.find())
+        cursor.execute("SELECT * FROM patient")
     else:
-        patients = list(db.patient.find({'Status': status}))
-    return render_template('tables.html', patients=patients, status=status)
+        cursor.execute("SELECT * FROM patient WHERE status = %s", (status,))
+    patients = cursor.fetchall()
+    return render_template("tables.html", patients=patients, status=status)
 
 
 @app.route('/invoices')
 def invoices():
-    # Fetch all invoices from MongoDB and convert to a list for reuse
-    invoice_list = list(invoices_collection.find())
+    cursor.execute("SELECT * FROM invoice")
+    invoices = cursor.fetchall()
 
-    # Calculate total earnings
-    total_earnings = sum(inv.get('Total_Amount', 0) for inv in invoice_list)
+    total_earnings = 0
+    overdue_count = 0
+    today = date.today()
 
-    # Calculate overdue count
-    overdue_count = sum(
-        1 for inv in invoice_list
-        if inv.get('Claim_Date') and datetime.strptime(inv['Claim_Date'], '%Y-%m-%d').date() < datetime.today().date()
-    )
+    for inv in invoices:
+        total_earnings += inv['total_price'] or 0
 
-    # Get most frequent patient by counting invoice occurrences
-    patient_counts = invoices_collection.aggregate([
-        {"$group": {"_id": "$Patient_ID", "count": {"$sum": 1}}},
-        {"$sort": {"count": -1}},
-        {"$limit": 1}
-    ])
+        payments = inv.get('payment') or []
+        if payments:
+            latest_payment = payments[-1]
+            inv['payment_method'] = latest_payment.get('payment_method')
+            inv['payment_status'] = latest_payment.get('payment_status')
+        else:
+            inv['payment_method'] = None
+            inv['payment_status'] = None
 
-    most_frequent_patient = None
-    try:
-        most_frequent_data = next(patient_counts)
-        most_frequent_patient_id = most_frequent_data['_id']
-        most_frequent_patient = db.patients.find_one({"Patient_ID": most_frequent_patient_id})
-    except StopIteration:
-        most_frequent_patient = None
+        if inv.get('payment_status') == 'Partial':
+            overdue_count += 1
+
+    # Get most frequent patient based on number_of_visit in patient table
+    cursor.execute("""
+        SELECT * FROM patient
+        ORDER BY number_of_visit DESC
+        LIMIT 1
+    """)
+    most_frequent_patient = cursor.fetchone()
 
     return render_template('invoice.html',
-                           invoices=invoice_list,
+                           invoices=invoices,
                            total_earnings=total_earnings,
                            overdue_count=overdue_count,
-                           patient=most_frequent_patient)
+                           most_frequent_patient=most_frequent_patient)
 
 
+
+@app.route('/patient/<patient_id>')
+def patient_details(patient_id):
+    cursor.execute("SELECT * FROM patient WHERE patient_id = %s", (patient_id,))
+    patient = cursor.fetchone()
+    if not patient:
+        return "Patient not found", 404
+
+    cursor.execute("SELECT * FROM eyeresult WHERE patient_id = %s", (patient_id,))
+    eye_results = cursor.fetchall()
+
+    cursor.execute("SELECT * FROM prescription WHERE patient_id = %s", (patient_id,))
+    prescriptions = cursor.fetchall()
+
+    cursor.execute("SELECT * FROM invoice WHERE patient_id = %s", (patient_id,))
+    invoices = cursor.fetchall()
+
+    return render_template("patient details.html",
+                           patient=patient,
+                           eye_results=eye_results,
+                           prescriptions=prescriptions,
+                           invoices=invoices)
+
+@app.route('/patient/<patient_id>/history')
+def patient_history(patient_id):
+    cursor.execute("SELECT * FROM patient WHERE patient_id = %s", (patient_id,))
+    patient = cursor.fetchone()
+    if not patient:
+        return "Patient not found", 404
+
+    cursor.execute("SELECT * FROM appointment WHERE patient_id = %s", (patient_id,))
+    appointments = cursor.fetchall()
+
+    cursor.execute("SELECT * FROM prescription WHERE patient_id = %s", (patient_id,))
+    prescriptions = cursor.fetchall()
+
+    presc_lookup = {
+        p['prescription_date']: {
+            'Eye_Exam_Results': p.get('va_od', 'N/A'),
+            'Vision_Prescription': f"{p.get('sph_od', '')}/{p.get('sph_os', '')}"
+        }
+        for p in prescriptions
+    }
+
+    history_data = []
+    for appt in appointments:
+        date_str = appt['appointment_date']
+        history_data.append({
+            'appointment_id': appt.get('appointment_id', 'N/A'),
+            'appointment_date': date_str,
+            'purpose': appt.get('purpose', 'N/A'),
+            'status': appt.get('status', 'N/A'),
+        })
+
+    return render_template("patient history.html", patient=patient, history_data=history_data)
 
 if __name__ == '__main__':
     app.run(debug=True)
