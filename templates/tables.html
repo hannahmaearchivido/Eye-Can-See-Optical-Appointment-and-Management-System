@@ -341,40 +341,67 @@
                             <div class="table-responsive">  
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">  
                                     <thead>  
-                                        <tr>  
-                                            <th>Patient Name</th>  
-                                            <th>Age</th>  
-                                            <th>Gender</th>  
-                                            <th>Contact Details</th>  
-                                            <th>Status</th>  
-                                            <th>Date</th>  
-                                            <th>Eye Exam Results</th> <!-- New Column -->  
-                                            <th>Prescription</th>      <!-- New Column -->  
+                                        <tr>
+                                            <th>Patient ID</th>
+                                            <th>Patient First Name</th>
+                                            <th>Patient Middle Initial</th>
+                                            <th>Patient Last Name</th>
+                                            <th>Email</th>
+                                            <th>Age</th>
+                                            <th>Birthday</th>
+                                            <th>Gender</th>
+                                            <th>Contact Details</th>
+                                            <th>Province</th>
+                                            <th>City/Municipality</th>
+                                            <th>Barangay</th>
+                                            <th>Street</th>
+                                            <th>Status</th>
+                                            <th>Occupation</th>
+                                            <th>Date</th>
+                                            <th>Number of Visit</th>
                                         </tr>  
                                     </thead>  
                                     <tfoot>  
-                                        <tr>  
-                                            <th>Patient Name</th>  
-                                            <th>Age</th>  
-                                            <th>Gender</th>  
-                                            <th>Contact Details</th>  
-                                            <th>Status</th>  
-                                            <th>Date</th>  
-                                            <th>Eye Exam Results</th> <!-- New Column -->  
-                                            <th>Prescription</th>      <!-- New Column -->  
+                                        <tr>
+                                            <th>Patient ID</th>
+                                            <th>Patient First Name</th>
+                                            <th>Patient Middle Initial</th>
+                                            <th>Patient Last Name</th>
+                                            <th>Email</th>
+                                            <th>Age</th>
+                                            <th>Birthday</th>
+                                            <th>Gender</th>
+                                            <th>Contact Details</th>
+                                            <th>Province</th>
+                                            <th>City/Municipality</th>
+                                            <th>Barangay</th>
+                                            <th>Street</th>
+                                            <th>Status</th>
+                                            <th>Occupation</th>
+                                            <th>Date</th>
+                                            <th>Number of Visit</th>
                                         </tr>  
                                     </tfoot>  
                                     <tbody>
                                         {% for patient in patients %}
-                                        <tr onclick="location.href='patient details.html'">
-                                            <td>{{ patient['Patient_Name'] }}</td>
-                                            <td>{{ patient['Age'] }}</td>
-                                            <td>{{ patient['Gender'] }}</td>
-                                            <td>{{ patient['Contact_Details'] }}</td>
-                                            <td>{{ patient['Status'] }}</td>
-                                            <td>{{ patient['Date'] }}</td>
-                                            <td>{{ patient['Eye_Exam_Results'] }}</td>
-                                            <td>{{ patient['Prescription'] }}</td>
+                                        <tr onclick="window.location.href='/patient/{{ patient['patient_id'] }}';" style="cursor: pointer;">
+                                            <td>{{ patient.patient_id }}</td>
+                                            <td>{{ patient.patient_fname }}</td>
+                                            <td>{{ patient.patient_minitial }}</td>
+                                            <td>{{ patient.patient_lname }}</td>
+                                            <td>{{ patient.email }}</td>
+                                            <td>{{ patient.age }}</td>
+                                            <td>{{ patient.birthday }}</td>
+                                            <td>{{ patient.gender }}</td>
+                                            <td>{{ patient.contact_details }}</td>
+                                            <td>{{ patient.province }}</td>
+                                            <td>{{ patient.city }}</td>
+                                            <td>{{ patient.barangay }}</td>
+                                            <td>{{ patient.street }}</td>
+                                            <td>{{ patient.status }}</td>
+                                            <td>{{ patient.occupation }}</td>
+                                            <td>{{ patient.date }}</td>
+                                            <td>{{ patient.number_of_visit }}</td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>
