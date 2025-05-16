@@ -61,7 +61,7 @@
 
             <!-- Nav Item - Patient Records -->
             <li class="nav-item">
-                <a class="nav-link" href="tables.html">
+                <a class="nav-link" href="{{ url_for('patient_records') }}">
                     <i class="fas fa-user"></i>
                     <span>Patient Records</span></a>
             </li>
@@ -71,7 +71,7 @@
 
             <!-- Nav Item - Invoice & Payments -->
             <li class="nav-item">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="{{ url_for('invoices') }}">
                     <i class="fas fa-money-bill-wave"></i>
                     <span>Invoice & Payments</span></a>
             </li>
@@ -303,85 +303,88 @@
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-900">APPOINTMENTS</h1>
-                        <input type="date" id="datePicker" class="form-control w-50">
+                        <input type="date" id="appointment-date" class="form-control w-50">
                     </div>
 
-                   <!-- Content Row -->  
-                    <div class="row mb-4">  
-                        <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">  
-
-                            <!-- Card for Status Filters -->  
-                            <div class="card p-2">  
+                        <!-- Filter Row -->
+                     <div class="row-mb4 ">
+                         <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+                             <div class="card p-2">
                                 <div class="btn-group" role="group" aria-label="Status Filter">
-                                    <button type="button" class="btn btn-primary filter-btn active" data-filter="scheduled">Just Entered</button>
-                                    <button type="button" class="btn btn-secondary filter-btn" data-filter="pending">Pending</button>
-                                    <button type="button" class="btn btn-secondary filter-btn" data-filter="completed">Completed</button>
-                                    <button type="button" class="btn btn-secondary filter-btn" data-filter="reschedule">Reschedule</button>
-                                    <button type="button" class="btn btn-secondary filter-btn" data-filter="cancelled">Cancelled</button>
+                                    <button type="button" class="btn btn-primary filter-btn active" data-status="All">All</button>
+                                    <button type="button" class="btn btn-secondary filter-btn" data-status="Scheduled">Just Entered</button>
+                                    <button type="button" class="btn btn-secondary filter-btn" data-status="Pending">Pending</button>
+                                    <button type="button" class="btn btn-secondary filter-btn" data-status="Completed">Completed</button>
+                                    <button type="button" class="btn btn-secondary filter-btn" data-status="Reschedule">Reschedule</button>
+                                    <button type="button" class="btn btn-secondary filter-btn" data-status="Cancelled">Cancelled</button>
                                 </div>
-
                             </div>
-                        </div>  
-                    </div>  
+                         </div>
+                     </div>
+                    <!-- Appointment Cards -->
+                    <div class="row">
+                        {% for appointment in appointments %}
+                        <div class="col-xl-4 col-lg-6 mb-4 appointment-card"
+                             data-status="{{ appointment.status | lower }}"
+                             data-date="{{ appointment.appointment_date }}">
 
-                   <div class="row">
-                    {% for appointment in appointments %}
-                  <div class="col-xl-4 col-lg-6 mb-4 appointment-card" data-status="{{ appointment.Status | lower }}"
-                        data-date="{{ appointment.Appointment_Date }}">
-                        <div class="card shadow-sm">
-                            <div class="card-body">
-                                <!-- Card Header -->
-                                <div class="d-flex justify-content-between align-items-start mb-2">
-                                    <div>
-                                        <h6 class="m-0 font-weight-bold text-red">Appointment {{ loop.index }}</h6>
-                                        <small class="fw-semibold text-{{ 'warning' if appointment.Status == 'Pending' else
-                                                                        'info' if appointment.Status == 'Reschedule' else
-                                                                        'success' if appointment.Status == 'Completed' else
-                                                                        'primary' if appointment.Status == 'Scheduled' else
-                                                                        'warning' if appointment.Status == 'Cancelled' else
-                                                                        'danger' }}">{{ appointment.Status }}</small>
-                                    </div>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                             aria-labelledby="dropdownMenuLink">
-                                            <a class="dropdown-item" href="#">Edit</a>
-                                            <a class="dropdown-item" href="#">Reschedule</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Cancel</a>
+                            <div class="card shadow-sm">
+                                <div class="card-body">
+
+                                    <!-- Header -->
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <div>
+                                            <h6 class="m-0 font-weight-bold text-danger">Appointment {{ loop.index }}</h6>
+                                            <small class="fw-semibold text-{{
+                                                'warning' if appointment.status == 'Pending' else
+                                                'info' if appointment.status == 'Reschedule' else
+                                                'success' if appointment.status == 'Completed' else
+                                                'primary' if appointment.status == 'Scheduled' else
+                                                'danger' }}">{{ appointment.status }}</small>
+                                        </div>
+
+                                        <div class="dropdown no-arrow">
+                                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                                 aria-labelledby="dropdownMenuLink">
+                                                <a class="dropdown-item" href="#">Edit</a>
+                                                <a class="dropdown-item" href="#">Reschedule</a>
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item" href="#">Cancel</a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <!-- Patient Profile -->
-                                <div class="d-flex align-items-center mb-3">
-                                    <img src="{{ 'static/img/undraw_profile_2.svg' if appointment.Gender == 'Male' else 'static/img/undraw_profile_3.svg' }}"
-                                        alt="Patient" class="rounded-circle me-3" width="40" height="40">
-                                    <div>
-                                        <h6 class="mb-0 font-weight-bold">{{ appointment.Patient_Name }}</h6>
-                                        <small class="text-muted">{{ appointment.Purpose }}</small>
+                                    <!-- Profile -->
+                                    <div class="d-flex align-items-center mb-3">
+                                        <img src="{{ url_for('static', filename='img/undraw_profile_2.svg') if appointment.gender == 'Male' else url_for('static', filename='img/undraw_profile_3.svg') }}"
+                                             alt="Patient" class="rounded-circle me-3" width="40" height="40">
+                                        <div>
+                                            <h6 class="mb-0 font-weight-bold">{{ appointment.patient_fname }} {{ appointment.patient_lname }}</h6>
+                                            <small class="text-muted">{{ appointment.purpose }}</small>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <!-- Appointment Details -->
-                                <div class="text-muted small">
-                                    <div class="row mb-2">
-                                        <div class="col-5 fw-semibold">Appointment Date:</div>
-                                        <div class="col-7 font-weight-bold">{{ appointment.Appointment_Date }}</div>
+                                    <!-- Details -->
+                                    <div class="text-muted small">
+                                        <div class="row mb-2">
+                                            <div class="col-5 fw-semibold">Date:</div>
+                                            <div class="col-7 font-weight-bold">{{ appointment.appointment_date }}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-5 fw-semibold">Time:</div>
+                                            <div class="col-7 font-weight-bold">{{ appointment.appointment_time }}</div>
+                                        </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-5 fw-semibold">Appointment Time:</div>
-                                        <div class="col-7 font-weight-bold">{{ appointment.Appointment_Time }}</div>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
-                  </div>
 
 
                 <!-- /.container-fluid -->
@@ -432,45 +435,55 @@
 
   <script>
 document.addEventListener('DOMContentLoaded', function () {
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const appointmentCards = document.querySelectorAll('.appointment-card');
-    const datePicker = document.getElementById('datePicker');
+    const statusButtons = document.querySelectorAll('.filter-btn');
+    const dateInput = document.getElementById('appointment-date');
 
-    function filterCards() {
-        const selectedStatus = document.querySelector('.filter-btn.active')?.dataset.filter?.toLowerCase() || 'all';
-        const selectedDate = datePicker.value;
+    // Function to fetch and update appointments
+    function fetchAppointments(status, date) {
+        const url = new URL('/filter_appointments', window.location.origin);
+        if (status && status !== 'All') url.searchParams.append('status', status);
+        if (date) url.searchParams.append('appointment_date', date);
 
-        appointmentCards.forEach(card => {
-            const status = card.dataset.status.toLowerCase();
-            const date = card.dataset.date;
+        fetch(url)
+            .then(response => response.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const newCards = doc.querySelector('.row'); // Make sure this matches your actual row class
+                const cardContainer = document.querySelector('.row');
 
-            const statusMatch = (selectedStatus === 'all' || status === selectedStatus);
-            const dateMatch = (!selectedDate || date === selectedDate);
-
-            card.style.display = (statusMatch && dateMatch) ? 'block' : 'none';
-        });
+                if (cardContainer && newCards) {
+                    cardContainer.innerHTML = newCards.innerHTML;
+                }
+            })
+            .catch(error => console.error('Error:', error));
     }
 
-    // Button click event
-    filterButtons.forEach(btn => {
-        btn.addEventListener('click', function () {
-            // Update active styles
-            filterButtons.forEach(b => b.classList.remove('btn-primary', 'active'));
-            filterButtons.forEach(b => b.classList.add('btn-secondary'));
-            this.classList.remove('btn-secondary');
-            this.classList.add('btn-primary', 'active');
+    // Handle status button click
+    statusButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Update active class
+            statusButtons.forEach(b => b.classList.remove('btn-primary', 'active'));
+            btn.classList.add('btn-primary', 'active');
 
-            filterCards();
+            const status = btn.getAttribute('data-status');
+            const date = dateInput.value;
+
+            fetchAppointments(status, date);
         });
     });
 
-    // Date picker change event
-    datePicker.addEventListener('change', filterCards);
+    // Handle date change
+    dateInput.addEventListener('change', () => {
+        const activeBtn = document.querySelector('.filter-btn.btn-primary');
+        const status = activeBtn ? activeBtn.getAttribute('data-status') : 'All';
+        const date = dateInput.value;
 
-    // Initial filter on load
-    filterCards();
+        fetchAppointments(status, date);
+    });
 });
 </script>
+
 
 
 
