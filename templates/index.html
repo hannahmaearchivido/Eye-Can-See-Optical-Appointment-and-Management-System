@@ -482,13 +482,28 @@
                                             <th>Status</th>  
                                           </tr>  
                                         </thead>  
-                                        <tbody>  
-                                          <tr><td>#1001</td><td>Jane Doe</td><td>Eye
-                                            <td>9:00 AM</td><td><span class="status approved">Completed</span></td></tr>  
-                                            <tr><td>#1002</td><td>John Smith</td><td>Consultation</td><td>10:30 AM</td><td><span class="status pending">Pending</span></td></tr>  
-                                            <tr><td>#1003</td><td>Mary Jane</td><td>Follow-up</td><td>11:00 AM</td><td><span class="status approved">Completed</span></td></tr>  
-                                          </tbody>  
-                                        </table>  
+                                        <tbody>
+                                          {% for appt in appointments %}
+                                            <tr>
+                                              <td>#{{ appt.appointment_id }}</td>
+                                              <td>{{ appt.patient_fname }} {{ appt.patient_minitial }} {{ appt.patient_lname }}</td>
+                                              <td>{{ appt.purpose }}</td>
+                                              <td>{{ appt.appointment_date.strftime("%I:%M %p") }}</td>
+                                              <td>
+                                                {% if appt.status.lower() == "completed" %}
+                                                  <span class="status approved">Completed</span>
+                                                {% elif appt.status.lower() == "pending" %}
+                                                  <span class="status pending">Pending</span>
+                                                {% else %}
+                                                  <span class="status">{{ appt.status }}</span>
+                                                {% endif %}
+                                              </td>
+                                            </tr>
+                                          {% else %}
+                                            <tr><td colspan="5">No appointments today.</td></tr>
+                                          {% endfor %}
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>  
                         </div>
@@ -561,6 +576,8 @@
         </div>
     </div>
 
+
+
     <!-- Bootstrap core JavaScript-->
     <script src="static/vendor/jquery/jquery.min.js"></script>
     <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -577,6 +594,11 @@
     <!-- Page level custom scripts -->
     <script src="static/js/demo/chart-area-demo.js"></script>
     <script src="static/js/demo/chart-pie-demo.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+
 
 </body>
 
