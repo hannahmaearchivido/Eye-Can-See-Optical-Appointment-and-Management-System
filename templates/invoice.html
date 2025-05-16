@@ -44,7 +44,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="{{ url_for('index') }}">
                     <i class="fas fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -54,7 +54,7 @@
 
              <!-- Nav Item - Appointment -->
             <li class="nav-item">
-                <a class="nav-link" href="appointment.html">
+                <a class="nav-link" href="{{ url_for('appointments') }}">
                     <i class="fas fa-calendar-check"></i>
                     <span>Appointment</span></a>
             </li>
@@ -359,19 +359,23 @@
                                     </h6>
                                     <ul class="list-unstyled mb-0">
                                         <li class="media align-items-center">
-                                            <img src="img/undraw_profile_3.svg" alt="Profile Picture" class="rounded-circle mr-3" width="60" height="60">
+                                            {% if most_frequent_patient %}
+                                            <img src="{% if most_frequent_patient['gender'] == 'Female' %}static/img/undraw_profile_3.svg{% else %}static/img/undraw_profile_2.svg{% endif %}"
+                                                 alt="Profile Picture" class="rounded-circle mr-3" width="60" height="60">
                                             <div class="media-body">
-                                                {% if most_frequent_patient %}
                                                 <h6 class="mt-0 mb-1 font-weight-bold text-primary">
-                                                    {{ most_frequent_patient.Patient_Name }}
+                                                    {{ most_frequent_patient['patient_fname'] }} {{ most_frequent_patient['patient_lname'] }}
                                                 </h6>
                                                 <small class="text-gray-600 d-block mb-1">
-                                                    <i class="fas fa-id-card mr-1"></i> {{ most_frequent_patient.Patient_ID }}
+                                                    <i class="fas fa-id-card mr-1"></i> {{ most_frequent_patient['patient_id'] }}
                                                 </small>
-                                                {% else %}
-                                                <p class="text-muted">No patient data</p>
-                                                {% endif %}
                                             </div>
+                                            {% else %}
+                                            <img src="static/img/undraw_profile_2.svg" alt="Profile Picture" class="rounded-circle mr-3" width="60" height="60">
+                                            <div class="media-body">
+                                                <p class="text-muted">No patient data</p>
+                                            </div>
+                                            {% endif %}
                                         </li>
                                     </ul>
                                 </div>
@@ -391,13 +395,18 @@
                                         <tr>
                                             <th>Invoice ID</th>
                                             <th>Patient ID</th>
-                                            <th>Patient Name</th>
-                                            <th>Product/Services</th>
-                                            <th>Total Amount</th>
-                                            <th>Downpayment</th>
-                                            <th>Remaining Balance</th> <!-- New Column -->
-                                            <th>Transaction Date</th>      <!-- New Column -->
+                                            <th>Patient First Name</th>
+                                            <th>Patient Middle Initial</th>
+                                            <th>Patient Last Name</th>
+                                            <th>Invoice Number</th>
                                             <th>Claim Date</th>
+                                            <th>Transaction Date</th>
+                                            <th>Frame Price</th>
+                                            <th>Lens Price</th>
+                                            <th>Additional Price</th>
+                                            <th>Total Price</th>
+                                            <th>Deposit Amount</th>
+                                            <th>Balance Due</th>
                                             <th>Payment Method</th>
                                             <th>Payment Status</th>
                                         </tr>
@@ -406,13 +415,18 @@
                                         <tr>
                                             <th>Invoice ID</th>
                                             <th>Patient ID</th>
-                                            <th>Patient Name</th>
-                                            <th>Product/Services</th>
-                                            <th>Total Amount</th>
-                                            <th>Downpayment</th>
-                                            <th>Remaining Balance</th> <!-- New Column -->
-                                            <th>Transaction Date</th>      <!-- New Column -->
+                                            <th>Patient First Name</th>
+                                            <th>Patient Middle Initial</th>
+                                            <th>Patient Last Name</th>
+                                            <th>Invoice Number</th>
                                             <th>Claim Date</th>
+                                            <th>Transaction Date</th>
+                                            <th>Frame Price</th>
+                                            <th>Lens Price</th>
+                                            <th>Additional Price</th>
+                                            <th>Total Price</th>
+                                            <th>Deposit Amount</th>
+                                            <th>Balance Due</th>
                                             <th>Payment Method</th>
                                             <th>Payment Status</th>
                                         </tr>
@@ -420,21 +434,22 @@
                                    <tbody>
                                         {% for invoice in invoices %}
                                         <tr>
-                                            <td>{{ invoice.Invoice_ID }}</td>
-                                            <td>{{ invoice.Patient_ID }}</td>
-                                            <td>({{ invoice.Patient_Name }})</td>
-                                            <td>
-                                                {% for service in invoice.Product_Services %}
-                                                    {{ service }}{% if not loop.last %}, {% endif %}
-                                                {% endfor %}
-                                            </td>
-                                            <td>₱{{ invoice.Total_Amount }}</td>
-                                            <td>₱{{ invoice.Downpayment }}</td>
-                                            <td>{{ invoice.Remaining_Balance }}</td>
-                                            <td>{{ invoice.Transaction_Date }}</td>
-                                            <td>{{ invoice.Claim_Date }}</td>
-                                            <td>{{ invoice.Payment_Method }}</td>
-                                            <td>{{ invoice.Payment_Status }}</td>
+                                            <td>{{ invoice.invoice_id }}</td>
+                                            <td>{{ invoice.patient_id }}</td>
+                                            <td>({{ invoice.patient_fname }})</td>
+                                            <td>({{ invoice.patient_mname }})</td>
+                                            <td>({{ invoice.patient_lname }})</td>
+                                            <td>({{ invoice.invoice_number }})</td>
+                                            <td>{{ invoice.claim_date }}</td>
+                                            <td>{{ invoice.transaction_date }}</td>
+                                            <td>₱{{ invoice.frame_price }}</td>
+                                            <td>₱{{ invoice.lens_price }}</td>
+                                            <td>₱{{ invoice.additional_price }}</td>
+                                            <td>₱{{ invoice.total_price }}</td>
+                                            <td>₱{{ invoice.deposit_amount }}</td>
+                                            <td>₱{{ invoice.balance_due }}</td>
+                                            <td>{{ invoice.payment_method or 'N/A' }}</td>      <!-- Added payment_method -->
+                                            <td>{{ invoice.payment_status or 'N/A' }}</td>      <!-- Added payment_status -->
                                         </tr>
                                         {% endfor %}
                                     </tbody>
