@@ -383,10 +383,101 @@
                         </div>
                     </div>
 
+                    <!-- Modal -->
+                    <div class="modal fade" id="addInvoiceModal" tabindex="-1" role="dialog" aria-labelledby="addInvoiceModalLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-lg" role="document">
+                        <form id="addInvoiceForm" method="POST" action="/add_invoice">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title"><strong>Add New Invoice</strong></h5>
+                                  <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                                </div>
+                                <div class="modal-body" style="background-color: #FEF5F3;">
+                                  <input type="hidden" name="patient_type" value="returning">
+                                  <!-- Returning Patient Fields -->
+                                  <div id="returningFields">
+                                    <div class="form-group col-md-6">
+                                      <label for="existing_patient_id"><strong>Select Patient ID</strong></label>
+                                      <select class="form-control" id="existing_patient_id" name="patient_id">
+                                        {% for patient in all_patients %}
+                                          <option value="{{ patient.patient_id }}">{{ patient.patient_id }}</option>
+                                        {% endfor %}
+                                      </select>
+                                    </div>
+                                    <div class="form-row">
+                                      <div class="form-group col-md-4">
+                                        <label><strong>First Name</strong></label>
+                                        <input type="text" class="form-control" id="auto_patient_fname" name="patient_fname" readonly>
+                                      </div>
+                                      <div class="form-group col-md-2">
+                                        <label><strong>M.I.</strong></label>
+                                        <input type="text" class="form-control" id="auto_patient_minitial" name="patient_minitial" readonly>
+                                      </div>
+                                      <div class="form-group col-md-4">
+                                        <label><strong>Last Name</strong></label>
+                                        <input type="text" class="form-control" id="auto_patient_lname" name="patient_lname" readonly>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <!-- Invoice Fields -->
+                                  <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                      <label><strong>Invoice Number</strong></label>
+                                      <input type="text" class="form-control" name="invoice_number" placeholder="Enter invoice number (e.g. INV001)" required>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                      <label><strong>Transaction Date</strong></label>
+                                      <input type="date" class="form-control" name="transaction_date" required>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                      <label><strong>Claim Date</strong></label>
+                                      <input type="date" class="form-control" name="claim_date" required>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                      <label><strong>Frame Price</strong></label>
+                                      <input type="number" class="form-control" name="frame_price" placeholder="Enter frame price" required>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                      <label><strong>Lens Price</strong></label>
+                                      <input type="number" class="form-control" name="lens_price" placeholder="Enter lens price" required>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                      <label><strong>Additional Price</strong></label>
+                                      <input type="number" class="form-control" name="additional_price" placeholder="Enter additional price">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                      <label><strong>Total Price</strong></label>
+                                      <input type="number" class="form-control" name="total_price" placeholder="Enter total price" required>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                      <label><strong>Deposit Amount</strong></label>
+                                      <input type="number" class="form-control" name="deposit_amount" placeholder="Enter deposit amount" required>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                      <label><strong>Balance Due</strong></label>
+                                      <input type="number" class="form-control" name="balance_due" placeholder="Enter balance due" required>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                  <button type="submit" class="btn btn-primary">Add Invoice</button>
+                                </div>
+                            </div>
+                        </form>
+                      </div>
+                    </div>
+
+
                      <!-- DataTales Example -->
                     <div class="card shadow mb-4">
-                        <div class="card-header py-3">
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                             <h6 class="m-0 font-weight-bold text-red">Invoice & Payment</h6>
+                            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addInvoiceModal">
+                                Add Invoice
+                            </button>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -437,7 +528,7 @@
                                             <td>{{ invoice.invoice_id }}</td>
                                             <td>{{ invoice.patient_id }}</td>
                                             <td>({{ invoice.patient_fname }})</td>
-                                            <td>({{ invoice.patient_mname }})</td>
+                                            <td>({{ invoice.patient_minitial }})</td>
                                             <td>({{ invoice.patient_lname }})</td>
                                             <td>({{ invoice.invoice_number }})</td>
                                             <td>{{ invoice.claim_date }}</td>
@@ -453,8 +544,6 @@
                                         </tr>
                                         {% endfor %}
                                     </tbody>
-
-
                                 </table>
                             </div>
                         </div>
@@ -505,6 +594,30 @@
             </div>
         </div>
     </div>
+
+    <script>
+      const patients = {{ all_patients | tojson }};
+
+      document.getElementById('existing_patient_id').addEventListener('change', function() {
+        const selectedId = this.value;
+        const patient = patients.find(p => p.patient_id == selectedId);
+        if (patient) {
+          document.getElementById('auto_patient_fname').value = patient.patient_fname;
+          document.getElementById('auto_patient_minitial').value = patient.patient_minitial || '';
+          document.getElementById('auto_patient_lname').value = patient.patient_lname;
+        }
+      });
+
+      // Initialize on load
+      togglePatientFields();
+    </script>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Bootstrap (with Popper for modal) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
 
     <!-- Bootstrap core JavaScript-->
     <script src="static/vendor/jquery/jquery.min.js"></script>
