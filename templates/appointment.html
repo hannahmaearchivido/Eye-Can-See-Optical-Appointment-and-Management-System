@@ -344,16 +344,29 @@
                                         </div>
 
                                         <div class="dropdown no-arrow">
-                                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink{{ appointment.appointment_id }}"
                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                                 aria-labelledby="dropdownMenuLink">
-                                                <a class="dropdown-item" href="#">Edit</a>
-                                                <a class="dropdown-item" href="#">Reschedule</a>
+                                                 aria-labelledby="dropdownMenuLink{{ appointment.appointment_id }}">
+                                                <form method="POST" action="{{ url_for('update_appointment_status', appointment_id=appointment.appointment_id) }}">
+                                                    <input type="hidden" name="status" value="Pending">
+                                                    <button type="submit" class="dropdown-item">Pending</button>
+                                                </form>
+                                                <form method="POST" action="{{ url_for('update_appointment_status', appointment_id=appointment.appointment_id) }}">
+                                                    <input type="hidden" name="status" value="Completed">
+                                                    <button type="submit" class="dropdown-item">Complete</button>
+                                                </form>
+                                                <form method="POST" action="{{ url_for('update_appointment_status', appointment_id=appointment.appointment_id) }}">
+                                                    <input type="hidden" name="status" value="Reschedule">
+                                                    <button type="submit" class="dropdown-item">Reschedule</button>
+                                                </form>
                                                 <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item" href="#">Cancel</a>
+                                                <form method="POST" action="{{ url_for('update_appointment_status', appointment_id=appointment.appointment_id) }}">
+                                                    <input type="hidden" name="status" value="Cancelled">
+                                                    <button type="submit" class="dropdown-item text-danger">Cancel</button>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -361,25 +374,28 @@
                                     <!-- Profile -->
                                     <div class="d-flex align-items-center mb-3">
                                         <img src="{{ url_for('static', filename='img/undraw_profile_2.svg') if appointment.gender == 'Male' else url_for('static', filename='img/undraw_profile_3.svg') }}"
-                                             alt="Patient" class="rounded-circle me-3" width="40" height="40">
+                                             alt="Patient" class="rounded-circle mr-3" width="50" height="50">
                                         <div>
-                                            <h6 class="mb-0 font-weight-bold">{{ appointment.patient_fname }} {{ appointment.patient_lname }}</h6>
-                                            <small class="text-muted">{{ appointment.purpose }}</small>
+                                            <h6 class="mb-0 font-weight-bold"> {{ appointment.patient_fname }} {{ appointment.patient_minitial }} {{ appointment.patient_lname }}</h6>
+                                            <small class="text-muted"> {{ appointment.age }}, {{ appointment.gender }} </small>
                                         </div>
                                     </div>
 
-                                    <!-- Details -->
+                                   <!-- Details -->
                                     <div class="text-muted small">
                                         <div class="row mb-2">
+                                            <div class="col-5 fw-semibold">Purpose:</div>
+                                            <div class="col-7 font-weight-bold">{{ appointment.purpose }}</div>
+                                        </div>
+                                        <div class="row mb-2">
                                             <div class="col-5 fw-semibold">Date:</div>
-                                            <div class="col-7 font-weight-bold">{{ appointment.appointment_date }}</div>
+                                            <div class="col-7 font-weight-bold">{{ appointment.appointment_date.strftime('%Y-%m-%d') }}</div>
                                         </div>
                                         <div class="row">
                                             <div class="col-5 fw-semibold">Time:</div>
-                                            <div class="col-7 font-weight-bold">{{ appointment.appointment_time }}</div>
+                                            <div class="col-7 font-weight-bold">{{ appointment.appointment_date.strftime('%I:%M %p') }}</div>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -434,55 +450,55 @@
     </div>
 
   <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const statusButtons = document.querySelectorAll('.filter-btn');
-    const dateInput = document.getElementById('appointment-date');
+    document.addEventListener('DOMContentLoaded', function () {
+        const statusButtons = document.querySelectorAll('.filter-btn');
+        const dateInput = document.getElementById('appointment-date');
 
-    // Function to fetch and update appointments
-    function fetchAppointments(status, date) {
-        const url = new URL('/filter_appointments', window.location.origin);
-        if (status && status !== 'All') url.searchParams.append('status', status);
-        if (date) url.searchParams.append('appointment_date', date);
+        // Function to fetch and update appointments
+        function fetchAppointments(status, date) {
+            const url = new URL('/filter_appointments', window.location.origin);
+            if (status && status !== 'All') url.searchParams.append('status', status);
+            if (date) url.searchParams.append('appointment_date', date);
 
-        fetch(url)
-            .then(response => response.text())
-            .then(html => {
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                const newCards = doc.querySelector('.row'); // Make sure this matches your actual row class
-                const cardContainer = document.querySelector('.row');
+            fetch(url)
+                .then(response => response.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const newCards = doc.querySelector('.row'); // Make sure this matches your actual row class
+                    const cardContainer = document.querySelector('.row');
 
-                if (cardContainer && newCards) {
-                    cardContainer.innerHTML = newCards.innerHTML;
-                }
-            })
-            .catch(error => console.error('Error:', error));
-    }
+                    if (cardContainer && newCards) {
+                        cardContainer.innerHTML = newCards.innerHTML;
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
 
-    // Handle status button click
-    statusButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            // Update active class
-            statusButtons.forEach(b => b.classList.remove('btn-primary', 'active'));
-            btn.classList.add('btn-primary', 'active');
+        // Handle status button click
+        statusButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active class
+                statusButtons.forEach(b => b.classList.remove('btn-primary', 'active'));
+                btn.classList.add('btn-primary', 'active');
 
-            const status = btn.getAttribute('data-status');
+                const status = btn.getAttribute('data-status');
+                const date = dateInput.value;
+
+                fetchAppointments(status, date);
+            });
+        });
+
+        // Handle date change
+        dateInput.addEventListener('change', () => {
+            const activeBtn = document.querySelector('.filter-btn.btn-primary');
+            const status = activeBtn ? activeBtn.getAttribute('data-status') : 'All';
             const date = dateInput.value;
 
             fetchAppointments(status, date);
         });
     });
-
-    // Handle date change
-    dateInput.addEventListener('change', () => {
-        const activeBtn = document.querySelector('.filter-btn.btn-primary');
-        const status = activeBtn ? activeBtn.getAttribute('data-status') : 'All';
-        const date = dateInput.value;
-
-        fetchAppointments(status, date);
-    });
-});
-</script>
+    </script>
 
 
 
