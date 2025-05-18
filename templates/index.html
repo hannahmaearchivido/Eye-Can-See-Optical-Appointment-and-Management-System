@@ -208,7 +208,7 @@
                                 </h6>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_1.svg"
+                                        <img class="rounded-circle" src="static/img/undraw_profile_1.svg"
                                             alt="...">
                                         <div class="status-indicator bg-success"></div>
                                     </div>
@@ -220,7 +220,7 @@
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_2.svg"
+                                        <img class="rounded-circle" src="static/img/undraw_profile_2.svg"
                                             alt="...">
                                         <div class="status-indicator"></div>
                                     </div>
@@ -232,7 +232,7 @@
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_3.svg"
+                                        <img class="rounded-circle" src="static/img/undraw_profile_3.svg"
                                             alt="...">
                                         <div class="status-indicator bg-warning"></div>
                                     </div>
@@ -244,7 +244,7 @@
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"
+                                        <img class="rounded-circle" src="static/img/undraw_profile_2.svg"
                                             alt="...">
                                         <div class="status-indicator bg-success"></div>
                                     </div>
@@ -310,11 +310,11 @@
 
                         <!-- No. of Patients Card -->
                         <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card border-left-success shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 No. of Patients</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">{{ dashboard.patients }}</div>
                                         </div>
@@ -328,11 +328,11 @@
 
                         <!-- No. of Appointments Card -->
                         <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
+                            <div class="card border-left-danger shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
                                                No. of Appointments</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">{{ dashboard.appointments }}</div>
                                         </div>
@@ -444,15 +444,12 @@
                                     <div class="chart-pie pt-4 pb-2">
                                         <canvas id="myPieChart"></canvas>
                                     </div>
-                                    <div class="mt-4 text-center small">
+                                    <div class="mt-1 text-center small">
                                         <span class="mr-2">
-                                            <i class="fas fa-circle text-primary"></i> Direct
+                                            <i class="fas fa-circle text-warning"></i> Actual
                                         </span>
                                         <span class="mr-2">
-                                            <i class="fas fa-circle text-success"></i> Social
-                                        </span>
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-info"></i> Referral
+                                            <i class="fas fa-circle text-danger"></i> Remaining Target
                                         </span>
                                     </div>
                                 </div>
@@ -477,30 +474,38 @@
                                           <tr>  
                                             <th>#</th>  
                                             <th>Patient</th>  
-                                            <th>Service</th>  
-                                            <th>Time</th>  
+                                            <th>Purpose</th>
+                                            <th>Date</th>
+                                            <th>Time</th>
                                             <th>Status</th>  
                                           </tr>  
                                         </thead>  
-                                        <tbody>
-                                          {% for appt in appointments %}
+                                       <tbody>
+                                          {% for appt in recent_appointments %}
                                             <tr>
                                               <td>#{{ appt.appointment_id }}</td>
                                               <td>{{ appt.patient_fname }} {{ appt.patient_minitial }} {{ appt.patient_lname }}</td>
                                               <td>{{ appt.purpose }}</td>
-                                              <td>{{ appt.appointment_date.strftime("%I:%M %p") }}</td>
+                                              <td>{{ appt.appointment_date.strftime('%b %d, %Y') }}</td>
+                                              <td>{{ appt.appointment_date.strftime('%I:%M %p').lstrip('0') }}</td>
                                               <td>
                                                 {% if appt.status.lower() == "completed" %}
                                                   <span class="status approved">Completed</span>
                                                 {% elif appt.status.lower() == "pending" %}
-                                                  <span class="status pending">Pending</span>
+                                                  <span class="status yellow">Pending</span>
+                                                {% elif appt.status.lower() == "scheduled" %}
+                                                  <span class="status blue">Scheduled</span>
+                                                {% elif appt.status.lower() == "cancelled" %}
+                                                  <span class="status pending">Cancelled</span>
+                                                {% elif appt.status.lower() == "reschedule" %}
+                                                  <span class="status cyan">Rescheduled</span>
                                                 {% else %}
                                                   <span class="status">{{ appt.status }}</span>
                                                 {% endif %}
                                               </td>
                                             </tr>
                                           {% else %}
-                                            <tr><td colspan="5">No appointments today.</td></tr>
+                                            <tr><td colspan="6">No recent appointments.</td></tr>
                                           {% endfor %}
                                         </tbody>
                                     </table>
@@ -517,11 +522,23 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="text-left">
-                                        <ul class="activity-list">  
-                                            <li><span class="dot green"></span> 2:00 PM – Paul Adams (Consultation)</li>  
-                                            <li><span class="dot blue"></span> 3:15 PM – Linda Grey (Eye Test)</li>  
-                                            <li><span class="dot yellow"></span> 4:30 PM – Mark Stone (Follow-up)</li>  
-                                          </ul>  
+                                        <ul class="activity-list">
+                                          {% for appt in upcoming_appointments %}
+                                            <li>
+                                                {{ appt.appointment_date.strftime('%b %d, %Y %I:%M %p').lstrip('0') }}
+                                              <span class="dot
+                                                {% if appt.status.lower() == 'pending' %}yellow
+                                                {% elif appt.status.lower() == 'completed' %}green
+                                                {% elif appt.status.lower() == 'reschedule' %}yellow
+                                                {% elif appt.status.lower() == 'scheduled' %}cyan
+                                                {% else %}red{% endif %}">
+                                              </span>
+                                              {{ time }} – {{ appt.patient_fname }} {{ appt.patient_lname }} ({{ appt.purpose }})
+                                            </li>
+                                          {% else %}
+                                            <li><em>No upcoming appointments.</em></li>
+                                          {% endfor %}
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
@@ -570,7 +587,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <a class="btn btn-primary" href="{{ url_for('register') }}">Logout</a>
                 </div>
             </div>
         </div>
@@ -591,13 +608,163 @@
     <!-- Page level plugins -->
     <script src="static/vendor/chart.js/Chart.min.js"></script>
 
-    <!-- Page level custom scripts -->
-    <script src="static/js/demo/chart-area-demo.js"></script>
-    <script src="static/js/demo/chart-pie-demo.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
+
+    <script>
+    // Set new default font family and font color to mimic Bootstrap's default styling
+    Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+    Chart.defaults.global.defaultFontColor = '#858796';
+
+    function number_format(number, decimals, dec_point, thousands_sep) {
+      number = (number + '').replace(',', '').replace(' ', '');
+      var n = !isFinite(+number) ? 0 : +number,
+          prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+          sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+          dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+          s = '',
+          toFixedFix = function(n, prec) {
+            var k = Math.pow(10, prec);
+            return '' + Math.round(n * k) / k;
+          };
+      s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+      if (s[0].length > 3) {
+        s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+      }
+      if ((s[1] || '').length < prec) {
+        s[1] = s[1] || '';
+        s[1] += new Array(prec - s[1].length + 1).join('0');
+      }
+      return s.join(dec);
+    }
+
+    // Area Chart Example (Monthly Revenue)
+    var ctx = document.getElementById("myAreaChart");
+    var myLineChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: {{ month_labels | tojson }},
+        datasets: [{
+          label: "Revenue",
+          lineTension: 0.3,
+          backgroundColor: "rgba(78, 115, 223, 0.05)",
+          borderColor: "#FFCACA",
+          pointRadius: 3,
+          pointBackgroundColor: "#9C2627",
+          pointBorderColor: "#9C2627",
+          pointHoverRadius: 3,
+          pointHoverBackgroundColor: "#9C2627",
+          pointHoverBorderColor: "#9C2627",
+          pointHitRadius: 10,
+          pointBorderWidth: 2,
+          data: {{ monthly_totals | tojson }},
+        }],
+      },
+      options: {
+        maintainAspectRatio: false,
+        layout: {
+          padding: {
+            left: 10,
+            right: 25,
+            top: 25,
+            bottom: 0
+          }
+        },
+        scales: {
+          xAxes: [{
+            time: {
+              unit: 'month'
+            },
+            gridLines: {
+              display: false,
+              drawBorder: false
+            },
+            ticks: {
+              maxTicksLimit: 7
+            }
+          }],
+          yAxes: [{
+            ticks: {
+              maxTicksLimit: 5,
+              padding: 10,
+              callback: function(value) {
+                return '₱' + number_format(value);
+              }
+            },
+            gridLines: {
+              color: "rgb(234, 236, 244)",
+              zeroLineColor: "rgb(234, 236, 244)",
+              drawBorder: false,
+              borderDash: [2],
+              zeroLineBorderDash: [2]
+            }
+          }],
+        },
+        legend: {
+          display: false
+        },
+        tooltips: {
+          backgroundColor: "rgb(255,255,255)",
+          bodyFontColor: "#858796",
+          titleMarginBottom: 10,
+          titleFontColor: '#6e707e',
+          titleFontSize: 14,
+          borderColor: '#dddfeb',
+          borderWidth: 1,
+          xPadding: 15,
+          yPadding: 15,
+          displayColors: false,
+          intersect: false,
+          mode: 'index',
+          caretPadding: 10,
+          callbacks: {
+            label: function(tooltipItem, chart) {
+              var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+              return datasetLabel + ': ₱' + number_format(tooltipItem.yLabel);
+            }
+          }
+        }
+      }
+    });
+    </script>
+
+    <script>
+    // Set new default font family and font color to mimic Bootstrap's default styling
+    Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+    Chart.defaults.global.defaultFontColor = '#858796';
+
+    // Pie Chart Example
+    var ctx = document.getElementById("myPieChart");
+    var myPieChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Actual Sales', 'Remaining Target'],
+        datasets: [{
+          data: [{{ sales_actual }}, {{ sales_target - sales_actual }}],
+          backgroundColor: ['#fbce5d', '#f96567'],
+          hoverBackgroundColor: ['#f6c23e', '#9C2627'],
+          hoverBorderColor: ['rgb(246, 194, 62)','rgb(156, 38, 39)'],
+        }],
+      },
+      options: {
+        maintainAspectRatio: false,
+        tooltips: {
+          backgroundColor: "rgb(255,255,255)",
+          bodyFontColor: "#858796",
+          borderColor: '#dddfeb',
+          borderWidth: 1,
+          xPadding: 15,
+          yPadding: 15,
+          displayColors: false,
+          caretPadding: 10,
+        },
+        legend: {
+          display: false
+        },
+        cutoutPercentage: 80,
+      },
+    });
+    </script>
 
 
 </body>
