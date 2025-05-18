@@ -322,20 +322,101 @@
                                 </div>
                            </div>
 
+                            <!-- Modal -->
+                            <div class="modal fade" id="newPatientModal" tabindex="-1" role="dialog" aria-labelledby="newPatientModalLabel" aria-hidden="true">
+                              <div class="modal-dialog modal-lg" role="document">
+                                <form id="newPatientForm" method="POST" action="/add_patient"> <!-- Adjust action URL -->
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="newPatientModalLabel"><strong>Add New Patient</strong></h5>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
 
-                            <!-- New Patient Button -->
-                            <div class="col-8">
-                                <button type="button" class="btn btn-newpatient">
-                                + New Patient
-                                </button>
+                                    <div class="modal-body" style="background-color: #FEF5F3;">
+                                      <div class="form-row">
+                                        <div class="form-group col-md-4">
+                                            <label for="patient_fname"><strong>First Name</strong></label>
+                                          <input type="text" class="form-control" id="patient_fname" name="patient_fname" placeholder="Enter patient first name" required>
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <label for="patient_minitial"><strong>Middle Initial</strong></label>
+                                          <input type="text" class="form-control" id="patient_minitial" name="patient_minitial" maxlength="1" placeholder="Optional">
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="patient_lname"><strong>Last Name</strong></label>
+                                          <input type="text" class="form-control" id="patient_lname" name="patient_lname" placeholder="Enter patient last name" required>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="email"><strong>Email</strong></label>
+                                          <input type="email" class="form-control" id="email" name="email" placeholder="Enter patient email" required>
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <label for="age"><strong>Age</strong></label>
+                                          <input type="number" class="form-control" id="age" name="age" min="0" max="120" placeholder="Enter age" required>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="birthday"><strong>Birthday</strong></label>
+                                          <input type="date" class="form-control" id="birthday" name="birthday" required>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="gender"><strong>Gender</strong></label>
+                                          <select class="form-control" id="gender" name="gender" required>
+                                            <option value="" selected disabled>Select Gender</option>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                            <option value="Other">Other</option>
+                                          </select>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="contact_details"><strong>Contact Details</strong></label>
+                                          <input type="text" class="form-control" id="contact_details" name="contact_details" placeholder="Enter patient contact number" required>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="province"><strong>Province</strong></label>
+                                          <input type="text" class="form-control" id="province" name="province" placeholder="Enter patient province" required>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="city"><strong>City/Municipality</strong></label>
+                                          <input type="text" class="form-control" id="city" name="city" placeholder="Enter patient city/municipality" required>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="barangay"><strong>Barangay</strong></label>
+                                          <input type="text" class="form-control" id="barangay" name="barangay" placeholder="Enter patient barangay" required>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <label for="street"><strong>Street</strong></label>
+                                          <input type="text" class="form-control" id="street" name="street" placeholder="Enter patient street" required>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="occupation"><strong>Occupation</strong></label>
+                                          <input type="text" class="form-control" id="occupation" name="occupation" placeholder="Enter patient occupation" required>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="date"><strong>Date</strong></label>
+                                          <input type="date" class="form-control" id="date" name="date" required>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                      <button type="submit" class="btn btn-primary">Add Patient</button>
+                                    </div>
+                                  </div>
+                                </form>
+                              </div>
                             </div>
                         </div>  
                     </div>  
 
                     <!-- DataTales Example -->  
                     <div class="card shadow mb-4">  
-                        <div class="card-header py-3">  
-                            <h6 class="m-0 font-weight-bold text-red">Patient Records</h6>  
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-red">Patient Records</h6>
+                             <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#newPatientModal">
+                                      New Patient
+                             </button>
                         </div>  
                         <div class="card-body">  
                             <div class="table-responsive">  
