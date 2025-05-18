@@ -108,8 +108,12 @@ address {
 }
 
 .bg-gradient-primary {
-  background-color: #9C2627  !important;
-  background-image: none !important;
+  background: #9C2627 !important;
+  border-bottom-right-radius: 3%;
+}
+
+.bg-gradient-primary1 {
+  background: linear-gradient(90deg, #fa6164, #ff928e, #ffbfb9, #ffeae7, #ffefee, #ffcecc, #ffadab, #ff8a8c) !important;
   border-bottom-right-radius: 3%;
 }
 
@@ -1869,9 +1873,9 @@ pre code {
 .form-control:focus {
   color: #6e707e;
   background-color: #fff;
-  border-color: #bac8f3;
+  border-color: #9C2627;
   outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+  box-shadow: 0 0 0 0.2rem rgba(156, 38, 39, 0.25);
 }
 
 .form-control::-webkit-input-placeholder {
@@ -11364,15 +11368,17 @@ body.sidebar-toggled footer.sticky-footer {
 }  
 
 .approved {  
-  background-color: #FFCACA;  
-  color: #9C2627;
+  background-color: #b2fae0;
+  color: #1cc88a;
   font-weight: 700;
   text-align: center;
-}  
+}
 
 .pending {  
-  background-color: #b2fae0;  
-  color: #1cc88a;  
+  background-color: #FFCACA;
+  color: #9C2627;
   font-weight: 700;
-}  
+}
+
+
 
