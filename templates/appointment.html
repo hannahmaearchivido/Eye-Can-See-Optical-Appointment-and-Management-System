@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Eye Can See Optical- Appointment</title>
+
+    <!-- Custom fonts for this templates-->
+    <link href="static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link rel="icon" href="static/img/icon logo.png" type="image/png">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this templates-->
+    <link href="static/css/sb-admin-2.css" rel="stylesheet">
+    
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url_for('index') }}">
+                <img src="static/img/eye can see - logo.png" alt="Eye Can See" class="navbar-logo" />
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('index') }}">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+             <!-- Nav Item - Appointment -->
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ url_for('appointments') }}">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>Appointment</span></a>
+            </li>
+              
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Nav Item - Patient Records -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('patient_records') }}">
+                    <i class="fas fa-user"></i>
+                    <span>Patient Records</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+             <!-- Nav Item - Inventory with Sub Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#"
+                   data-toggle="collapse"
+                   data-target="#collapseInventory"
+                   aria-expanded="false" aria-controls="collapseInventory">
+                    <i class="fas fa-boxes"></i>
+                    <span>Inventory</span>
+                </a>
+                <div id="collapseInventory" class="collapse" aria-labelledby="headingInventory" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="{{ url_for('inventory') }}"><i class="fas fa-search mr-2"></i>View Inventory</a>
+                        <a class="collapse-item" href="{{ url_for('optical_product_table') }}"><i class="fas fa-glasses mr-2"></i>Optical Products</a>
+                        <a class="collapse-item" href="{{ url_for('lens_table') }}"><i class="fas fa-eye mr-2"></i>Lens Add Ons</a>
+                        <a class="collapse-item" href="{{ url_for('add_new_product_form') }}"><i class="fas fa-plus mr-2"></i>Add New Product</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Nav Item - Invoice & Payments -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseInvoice"
+                   aria-expanded="false" aria-controls="collapseInvoice">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span>Invoice & Payments</span>
+                </a>
+                <div id="collapseInvoice" class="collapse" aria-labelledby="headingInvoice" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+
+                        <!-- Regular link -->
+                        <a class="collapse-item" href="{{ url_for('invoices') }}"><i class="fas fa-search mr-2"></i>View Invoice</a>
+
+                        <!-- Collapsible Submenu -->
+                        <a class="collapse-item collapsed" href="#" data-toggle="collapse" data-target="#subMenuProducts"
+                           aria-expanded="false" aria-controls="subMenuProducts"><i class="fas fa-stethoscope mr-2"></i>
+                            Our Services
+                        </a>
+                        <div id="subMenuProducts" class="collapse">
+                            <a class="collapse-item ml-3" href="{{ url_for('invoice_eyeexam') }}"><i class="fas fa-file-alt mr-2"></i>Eye Exams</a>
+                            <a class="collapse-item ml-3" href="{{ url_for('invoice_opticalproduct') }}"><i class="fas fa-glasses mr-2"></i>Optical Products</a>
+                            <a class="collapse-item ml-3" href="{{ url_for('invoice_lens') }}"><i class="fas fa-eye mr-2"></i>Lens Add-ons</a>
+                            <a class="collapse-item ml-3" href="{{ url_for('add_new_record_form') }}"><i class="fas fa-plus mr-2"></i>Add New Record</a>
+                        </div>
+
+                        <!-- Another regular link -->
+                        <a class="collapse-item" href="{{ url_for('invoice_billing') }}"><i class="fas fa-file-invoice mr-2"></i>Billing Services</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i> 
+                    </button>
+
+                    <!-- Topbar Search -->
+                    <form
+                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                        <div class="input-group">
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                                aria-label="Search" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="button">
+                                    <i class="fas fa-search fa-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+
+                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                        <li class="nav-item dropdown no-arrow d-sm-none">
+                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-search fa-fw"></i>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                                aria-labelledby="searchDropdown">
+                                <form class="form-inline mr-auto w-100 navbar-search">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control bg-light border-0 small"
+                                            placeholder="Search for..." aria-label="Search"
+                                            aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="button">
+                                                <i class="fas fa-search fa-sm"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+
+                        <!-- Nav Item - Alerts -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-bell fa-fw"></i>
+                                <!-- Counter - Alerts -->
+                                <span class="badge badge-danger badge-counter">3+</span>
+                            </a>
+                            <!-- Dropdown - Alerts -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="alertsDropdown">
+                                <h6 class="dropdown-header" style="background-color: #9C2627;">
+                                    Alerts Center
+                                </h6>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-primary">
+                                            <i class="fas fa-file-alt text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 12, 2019</div>
+                                        <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-success">
+                                            <i class="fas fa-donate text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 7, 2019</div>
+                                        $290.29 has been deposited into your account!
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-warning">
+                                            <i class="fas fa-exclamation-triangle text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 2, 2019</div>
+                                        Spending Alert: We've noticed unusually high spending for your account.
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                            </div>
+                        </li>
+
+                        <!-- Nav Item - Messages -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-envelope fa-fw"></i>
+                                <!-- Counter - Messages -->
+                                <span class="badge badge-danger badge-counter">7</span>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="messagesDropdown">
+                                <h6 class="dropdown-header" style="background-color: #9C2627;">
+                                    Messages
+                                </h6>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="static/img/undraw_profile_1.svg"
+                                            alt="...">
+                                        <div class="status-indicator bg-success"></div>
+                                    </div>
+                                    <div class="font-weight-bold">
+                                        <div class="text-truncate">Hi there! I am wondering if you can help me with a
+                                            problem I've been having.</div>
+                                        <div class="small text-gray-500">Emily Fowler · 58m</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="static/img/undraw_profile_2.svg"
+                                            alt="...">
+                                        <div class="status-indicator"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">I have the photos that you ordered last month, how
+                                            would you like them sent to you?</div>
+                                        <div class="small text-gray-500">Jae Chun · 1d</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="static/img/undraw_profile_3.svg"
+                                            alt="...">
+                                        <div class="status-indicator bg-warning"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">Last month's report looks great, I am very happy with
+                                            the progress so far, keep up the good work!</div>
+                                        <div class="small text-gray-500">Morgan Alvarez · 2d</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"
+                                            alt="...">
+                                        <div class="status-indicator bg-success"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">Am I a good boy? The reason I ask is because someone
+                                            told me that people say this to all dogs, even if they aren't good...</div>
+                                        <div class="small text-gray-500">Chicken the Dog · 2w</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+                            </div>
+                        </li>
+
+                        <div class="topbar-divider d-none d-sm-block"></div>
+
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Hannah Archivido</span>
+                                <img class="img-profile rounded-circle"
+                                    src="static/img/undraw_profile.svg">
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Profile
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Settings
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Activity Log
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </nav>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h2 font-weight-bold mb-0 text-gray-900">Appointments</h1>
+                        <input type="date" id="appointment-date" class="form-control w-50">
+                    </div>
+
+                        <!-- Filter Row -->
+                     <div class="row-mb-4 mt-5">
+                         <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+                             <div class="card p-2 justify-content-stretch" style="width: 65%;">
+                                <div role="group" aria-label="Status Filter">
+                                    <button type="button" class="btn btn-primary filter-btn active" data-status="All">All</button>
+                                    <button type="button" class="btn btn-secondary filter-btn" data-status="Scheduled">Just Entered</button>
+                                    <button type="button" class="btn btn-secondary filter-btn" data-status="Pending">Pending</button>
+                                    <button type="button" class="btn btn-secondary filter-btn" data-status="Completed">Completed</button>
+                                    <button type="button" class="btn btn-secondary filter-btn" data-status="Rescheduled">Rescheduled</button>
+                                    <button type="button" class="btn btn-secondary filter-btn" data-status="Cancelled">Cancelled</button>
+                                </div>
+                            </div>
+                         </div>
+                     </div>
+
+                    <!-- Appointment Cards -->
+                    <div class="row mt-4">
+                        {% for appointment in appointments %}
+                        <div class="col-xl-4 col-lg-6 mb-4 appointment-card"
+                             data-status="{{ appointment.status | lower }}"
+                             data-date="{{ appointment.appointment_date }}">
+
+                            <div class="card shadow-sm">
+                                <!-- Header -->
+                                <div class="card-header d-flex justify-content-between mb-2">
+                                    <div>
+                                        <h6 class="m-0 font-weight-bold text mt-2"><strong>Appointment {{ loop.index }}</strong></h6>
+                                        <small class="fw-semibold text-{{
+                                               'warning' if appointment.status == 'Pending' else
+                                               'info' if appointment.status == 'Rescheduled' else
+                                               'success' if appointment.status == 'Completed' else
+                                               'primary' if appointment.status == 'Scheduled' else
+                                               'danger' }}">{{ appointment.status }}</small>
+                                    </div>
+
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink{{ appointment.appointment_id }}"
+                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                             aria-labelledby="dropdownMenuLink{{ appointment.appointment_id }}">
+                                            <form method="POST" action="{{ url_for('update_appointment_status', appointment_id=appointment.appointment_id) }}">
+                                                <input type="hidden" name="status" value="Pending">
+                                                <button type="submit" class="dropdown-item">Pending</button>
+                                            </form>
+                                            <form method="POST" action="{{ url_for('update_appointment_status', appointment_id=appointment.appointment_id) }}">
+                                                <input type="hidden" name="status" value="Completed">
+                                                <button type="submit" class="dropdown-item">Complete</button>
+                                            </form>
+                                            <form method="POST" action="{{ url_for('update_appointment_status', appointment_id=appointment.appointment_id) }}">
+                                                <input type="hidden" name="status" value="Reschedule">
+                                                <button type="submit" class="dropdown-item">Rescheduled</button>
+                                            </form>
+                                            <div class="dropdown-divider"></div>
+                                            <form method="POST" action="{{ url_for('update_appointment_status', appointment_id=appointment.appointment_id) }}">
+                                                <input type="hidden" name="status" value="Cancelled">
+                                                <button type="submit" class="dropdown-item text-danger">Cancel</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <!-- Profile -->
+                                    <div class="d-flex align-items-center mb-3">
+                                        <img src="{{ url_for('static', filename='img/undraw_profile_2.svg') if appointment.gender == 'Male' else url_for('static', filename='img/undraw_profile_3.svg') }}"
+                                             alt="Patient" class="rounded-circle mr-3" width="50" height="50">
+                                        <div>
+                                            <h6 class="mb-0 font-weight-bold"> {{ appointment.patient_fname }} {{ appointment.patient_minitial }} {{ appointment.patient_lname }}</h6>
+                                            <small class="text-muted"> {{ appointment.age }}, {{ appointment.gender }} </small>
+                                        </div>
+                                    </div>
+
+                                   <!-- Details -->
+                                    <div class="text-muted small">
+                                        <div class="row mb-2">
+                                            <div class="col-5 fw-semibold ml-2">Purpose:</div>
+                                            <div class="col-6 font-weight-bold">{{ appointment.purpose }}</div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-5 fw-semibold ml-2">Date:</div>
+                                            <div class="col-6 font-weight-bold">{{ appointment.appointment_date.strftime('%Y-%m-%d') }}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-5 fw-semibold ml-2">Time:</div>
+                                            <div class="col-6 font-weight-bold">{{ appointment.appointment_date.strftime('%I:%M %p') }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Eye Can See Optical 2025</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const statusButtons = document.querySelectorAll('.filter-btn');
+        const dateInput = document.getElementById('appointment-date');
+
+        // Function to fetch and update appointments
+        function fetchAppointments(status, date) {
+            const url = new URL('/filter_appointments', window.location.origin);
+            if (status && status !== 'All') url.searchParams.append('status', status);
+            if (date) url.searchParams.append('appointment_date', date);
+
+            fetch(url)
+                .then(response => response.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const newCards = doc.querySelector('.row'); // Make sure this matches your actual row class
+                    const cardContainer = document.querySelector('.row');
+
+                    if (cardContainer && newCards) {
+                        cardContainer.innerHTML = newCards.innerHTML;
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        // Handle status button click
+        statusButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active class
+                statusButtons.forEach(b => b.classList.remove('btn-primary', 'active'));
+                btn.classList.add('btn-primary', 'active');
+
+                const status = btn.getAttribute('data-status');
+                const date = dateInput.value;
+
+                fetchAppointments(status, date);
+            });
+        });
+
+        // Handle date change
+        dateInput.addEventListener('change', () => {
+            const activeBtn = document.querySelector('.filter-btn.btn-primary');
+            const status = activeBtn ? activeBtn.getAttribute('data-status') : 'All';
+            const date = dateInput.value;
+
+            fetchAppointments(status, date);
+        });
+    });
+    </script>
+
+
+
+
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="static/vendor/jquery/jquery.min.js"></script>
+    <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="static/js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="static/vendor/chart.js/Chart.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="static/js/demo/chart-area-demo.js"></script>
+    <script src="static/js/demo/chart-pie-demo.js"></script>
+
+</body>
+
+</html>

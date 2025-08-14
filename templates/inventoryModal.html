@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Eye Can See Optical - Invoice & Payment</title>
+
+    <!-- Custom fonts for this templates -->
+    <link href="static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link rel="icon" href="static/img/icon logo.png" type="image/png">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this templates -->
+    <link href="static/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Custom styles for this page -->
+    <link href="static/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <img src="static/img/eye can see - logo.png" alt="Eye Can See" class="navbar-logo" />
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('index') }}">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+             <!-- Nav Item - Appointment -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('appointments') }}">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>Appointment</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Nav Item - Patient Records -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('patient_records') }}">
+                    <i class="fas fa-user"></i>
+                    <span>Patient Records</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Nav Item - Inventory -->
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ url_for('inventory') }}">
+                    <i class="fas fa-boxes"></i>
+                    <span>Inventory</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Nav Item - Invoice & Payments -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('invoices') }}">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span>Invoice & Payments</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Nav Item - Choose Frame -->
+            <li class="nav-item">
+                 <a class="nav-link" href="{{ url_for('choose_frame') }}">
+                    <i class="fas fa-glasses"></i>
+                    <span>Choose Eye Frame</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+        </ul>
+        <!-- End of Sidebar -->
+
+         <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <form class="form-inline">
+                        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                    </form>
+
+                    <!-- Topbar Search -->
+                    <form
+                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                        <div class="input-group">
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                                aria-label="Search" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="button">
+                                    <i class="fas fa-search fa-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+
+                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                        <li class="nav-item dropdown no-arrow d-sm-none">
+                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-search fa-fw"></i>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                                aria-labelledby="searchDropdown">
+                                <form class="form-inline mr-auto w-100 navbar-search">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control bg-light border-0 small"
+                                            placeholder="Search for..." aria-label="Search"
+                                            aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="button">
+                                                <i class="fas fa-search fa-sm"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+
+                        <!-- Nav Item - Alerts -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-bell fa-fw"></i>
+                                <!-- Counter - Alerts -->
+                                <span class="badge badge-danger badge-counter">3+</span>
+                            </a>
+                            <!-- Dropdown - Alerts -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="alertsDropdown">
+                                <h6 class="dropdown-header" style="background-color: #9C2627;">
+                                    Alerts Center
+                                </h6>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-primary">
+                                            <i class="fas fa-file-alt text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 12, 2019</div>
+                                        <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-success">
+                                            <i class="fas fa-donate text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 7, 2019</div>
+                                        $290.29 has been deposited into your account!
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-warning">
+                                            <i class="fas fa-exclamation-triangle text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 2, 2019</div>
+                                        Spending Alert: We've noticed unusually high spending for your account.
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                            </div>
+                        </li>
+
+                        <!-- Nav Item - Messages -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-envelope fa-fw"></i>
+                                <!-- Counter - Messages -->
+                                <span class="badge badge-danger badge-counter">7</span>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="messagesDropdown">
+                                <h6 class="dropdown-header" style="background-color: #9C2627;">
+                                    Message Center
+                                </h6>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="static/img/undraw_profile_1.svg"
+                                            alt="...">
+                                        <div class="status-indicator bg-success"></div>
+                                    </div>
+                                    <div class="font-weight-bold">
+                                        <div class="text-truncate">Hi there! I am wondering if you can help me with a
+                                            problem I've been having.</div>
+                                        <div class="small text-gray-500">Emily Fowler · 58m</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="static/img/undraw_profile_2.svg"
+                                            alt="...">
+                                        <div class="status-indicator"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">I have the photos that you ordered last month, how
+                                            would you like them sent to you?</div>
+                                        <div class="small text-gray-500">Jae Chun · 1d</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="static/img/undraw_profile_3.svg"
+                                            alt="...">
+                                        <div class="status-indicator bg-warning"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">Last month's report looks great, I am very happy with
+                                            the progress so far, keep up the good work!</div>
+                                        <div class="small text-gray-500">Morgan Alvarez · 2d</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"
+                                            alt="...">
+                                        <div class="status-indicator bg-success"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">Am I a good boy? The reason I ask is because someone
+                                            told me that people say this to all dogs, even if they aren't good...</div>
+                                        <div class="small text-gray-500">Chicken the Dog · 2w</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+                            </div>
+                        </li>
+
+                        <div class="topbar-divider d-none d-sm-block"></div>
+
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Hannah Archivido</span>
+                                <img class="img-profile rounded-circle"
+                                    src="static/img/undraw_profile.svg">
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Profile
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Settings
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Activity Log
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </nav>
+                <!-- End of Topbar -->
+
+                 <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h2 font-weight-bold mb-0 text-gray-900">INVENTORY MANAGEMENT</h1>
+                    </div>
+
+                    <!-- Content Row -->
+                    <div class="row">
+                        <!-- No. of Total Items Card -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                Total Items</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">23</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-boxes fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- No. of Low Stock Card -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-danger shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                                No. of Low Stock</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">34</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-exclamation-triangle fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- No. of Expired Items Card -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-info shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                                No. of Expired Items</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">32</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-hourglass-end fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Out of Stock Card -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-warning shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                                Out of Stock</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">15</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-ban fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Products Category Buttons -->
+                    <div class="row mb-3 g-2 mt-3 justify-content-center">
+                        <div class="col-6 col-md-3">
+                            <button class="btn btn-secondary1 w-100" onclick="showTab('optical')">Optical Products</button>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <button class="btn btn-secondary1 w-100" onclick="showTab('add-ons')">Lens Add-ons</button>
+                        </div>
+                    </div>
+
+                    <div id="optical" class="service-tab" style="display:block;">
+                        <!--  Tabs Navigation -->
+                        <ul class="nav nav-tabs mt-4" id="myTab2" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="eyeglass-frame-tab" data-toggle="tab" href="#eyeglass-frame" role="tab" aria-controls="eyeglass-frame" aria-selected="false">Eyeglass Frames</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="contact-lense-tab" data-toggle="tab" href="#contact-lens" role="tab" aria-controls="contact-lens" aria-selected="false">Contact Lenses</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="sunglasses-tab" data-toggle="tab" href="#sunglasses" role="tab" aria-controls="sunglasses" aria-selected="false">Sunglasses</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="lens-cleaning-tab" data-toggle="tab" href="#lens-cleaning" role="tab" aria-controls="lens-cleaning" aria-selected="false">Lens Cleaning Solution or Spray</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="eyeglass-case-tab" data-toggle="tab" href="#eyeglass-case" role="tab" aria-controls="eyeglass-case" aria-selected="false">Eyeglass Cases</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="contactlense-case-tab" data-toggle="tab" href="#contactlense-case" role="tab" aria-controls="contactlense-case" aria-selected="false">Contact Lenses Cases</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="contactlens-solution-tab" data-toggle="tab" href="#contactlens-solution" role="tab" aria-controls="contactlens-solution" aria-selected="false">Contact Lens Solution</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="repair-kit-tab" data-toggle="tab" href="#repair-kit" role="tab" aria-controls="repair-kit" aria-selected="false">Repair Kits</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="clipon-lens-tab" data-toggle="tab" href="#clipon-lens" role="tab" aria-controls="clipon-lens" aria-selected="false">Clip-on Lens</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="frame-accessory-tab" data-toggle="tab" href="#frame-accessory" role="tab" aria-controls="frame-accessory" aria-selected="false">Frame Accessory</a>
+                            </li>
+                        </ul>
+                        <!-- Tabs Content -->
+                        <div class="tab-content" id="myTabContent-optical-products">
+                             <!-- Eyeglass frame Table -->
+                             <div class="tab-pane fade show active" id="eyeglass-frame" role="tabpanel">
+                                  <div class="card shadow mt-2 mb-4">
+                                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                        <h6 class="m-0 font-weight-bold text-red">Eyeglass Frames Table</h6>
+                                        <input type="text" class="form-control1 w-25" placeholder="Search Item">
+                                    </div>
+                                    <div class="card-body">
+                                       <div class="table-responsive">
+                                             <table class="table table-hover text-center">
+                                                <thead class="table-light">
+                                                  <tr>
+                                                    <th>Eyeglass Frame ID</th>
+                                                    <th>Frame Brand</th>
+                                                    <th>Model Name</th>
+                                                    <th>Frame Type</th>
+                                                    <th>Frame Color</th>
+                                                    <th>Frame Shape</th>
+                                                    <th>Price</th>
+                                                    <th>Added Date</th>
+                                                    <th>Supplier</th>
+                                                    <th>Current Stock</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                                  </tr>
+                                                </thead>
+                                                <tbody>
+                                                  {% for item in inventory_data %}
+                                                    {% if item.table == 'eyeglassframeinventory' %}
+                                                      {% set eyeglass = item.item_data %}
+                                                      <tr>
+                                                        <td>{{ eyeglass.eyeglass_frame_id }}</td>
+                                                        <td>{{ eyeglass.frame_brand }}</td>
+                                                        <td>{{ eyeglass.model_number }}</td>
+                                                        <td>{{ eyeglass.frame_type }}</td>
+                                                        <td>{{ eyeglass.frame_color }}</td>
+                                                        <td>{{ eyeglass.frame_shape }}</td>
+                                                        <td>{{ eyeglass.price }}</td>
+                                                        <td>{{ eyeglass.added_date }}</td>
+                                                        <td>{{ eyeglass.supplier }}</td>
+                                                        <td class="text-center">
+                                                          <div class="d-flex flex-column align-items-center justify-content-center">
+                                                            <span class="mb-1 font-weight-bold" style="font-size: 14px;">{{ item.stock }} items</span>
+                                                            <div class="progress w-75" style="height: 8px;">
+                                                              <div class="progress-bar {{ item.bar_color }}"
+                                                                   role="progressbar"
+                                                                   style="width: {{ item.stock_percent }}%;"
+                                                                   aria-valuenow="{{ item.stock_percent }}"
+                                                                   aria-valuemin="0" aria-valuemax="100">
+                                                              </div>
+                                                            </div>
+                                                            <span class="mt-1 font-weight-bold {{ item.labeltext }}" style="font-size: 14px;">{{ item.label }}</span>
+                                                          </div>
+                                                        </td>
+                                                        <td><span class="badge {{ item.badge }} p-2">{{ eyeglass.status }}</span></td>
+                                                        <td class="d-flex flex-row align-items-center justify-content-between">
+                                                          <button class="btn btn-sm btn-outline-primary mr-1"
+                                                                  data-bs-toggle="modal"
+                                                                  data-bs-target="#editEyeglass{{ eyeglass.eyeglass_frame_id }}">
+                                                            <i class="fas fa-edit"></i>
+                                                          </button>
+                                                          <button class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
+                                                        </td>
+                                                      </tr>
+                                                      <!-- Edit Eyeglass Modal -->
+                                                    <div class="modal fade" id="editEyeglass{{ eyeglass.eyeglass_frame_id }}" tabindex="-1" aria-labelledby="editEyeglassLabel{{ eyeglass.eyeglass_frame_id }}" aria-hidden="true">
+                                                      <div class="modal-dialog modal-lg">
+                                                        <form id="editEyeglassForm" method="POST" action="/add_exam">
+                                                          <div class="modal-content border-0 shadow-sm">
+                                                            <div class="modal-header bg-white justify-content-center position-relative">
+                                                              <h5 class="modal-title text-secondary text-center w-100" id="editEyeglassLabel{{ eyeglass.eyeglass_frame_id }}">
+                                                                  Edit <br> <span style="color: #9C2627; font-size: 24px; font-weight: bold;">{{ eyeglass.eyeglass_frame_id }}</span>
+                                                              </h5>
+                                                            </div>
+                                                            <div class="modal-body" style="background-color: #FEF5F3; max-height: 70vh; overflow-y: auto;">
+                                                              <div class="container-fluid">
+                                                                  {% set fields = [
+                                                                        ('Frame Brand', eyeglass.frame_brand, 'text'),
+                                                                        ('Model Name', eyeglass.model_number, 'text'),
+                                                                        ('Frame Type', eyeglass.frame_type, 'text'),
+                                                                        ('Frame Color', eyeglass.frame_color, 'text'),
+                                                                        ('Frame Shape', eyeglass.frame_shape, 'text'),
+                                                                        ('Price', eyeglass.price, 'number'),
+                                                                        ('Added Date', eyeglass.added_date, 'date'),
+                                                                        ('Supplier', eyeglass.supplier, 'text'),
+                                                                        ('Current Stock', eyeglass.current_stock, 'number')
+                                                                  ] %}
+
+                                                                  {% for label, value, type in fields %}
+                                                                   <div class="row mb-3">
+                                                                      <div class="col-12">
+                                                                        <label class="form-label"><strong>{{ label }}</strong></label>
+                                                                        <input type="{{ type }}" class="form-control" value="{{ value }}">
+                                                                      </div>
+                                                                   </div>
+                                                                  {% endfor %}
+                                                                  <!-- Status Dropdown -->
+                                                                  <div class="row mb-3">
+                                                                    <div class="col-12">
+                                                                      <label class="form-label"><strong>Status</strong></label>
+                                                                      <div class="dropdown w-100">
+                                                                        <button class="btn btn-secondary dropdown-toggle w-100 text-start" type="button" id="statusDropdown{{ eyeglass.eyeglass_frame_id }}" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                          <span id="selectedStatus{{ eyeglass.eyeglass_frame_id }}">{{ eyeglass.status or 'Select Status' }}</span>
+                                                                        </button>
+                                                                        <ul class="dropdown-menu w-100" aria-labelledby="statusDropdown{{ eyeglass.eyeglass_frame_id }}">
+                                                                          <li><a class="dropdown-item" href="#" onclick="statusDropdown('{{ eyeglass.eyeglass_frame_id }}', 'High')">High</a></li>
+                                                                          <li><a class="dropdown-item" href="#" onclick="statusDropdown('{{ eyeglass.eyeglass_frame_id }}', 'Medium')">Medium</a></li>
+                                                                          <li><a class="dropdown-item" href="#" onclick="statusDropdown('{{ eyeglass.eyeglass_frame_id }}', 'Low')">Low</a></li>
+                                                                        </ul>
+                                                                        <input type="hidden" id="statusInput{{ eyeglass.eyeglass_frame_id }}" name="status" value="{{ eyeglass.status }}">
+                                                                      </div>
+                                                                    </div>
+                                                                  </div>
+                                                              </div>
+                                                            </div>
+                                                            <div class="modal-footer bg-white">
+                                                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                              <button type="submit" class="btn btn-success">Save</button>
+                                                            </div>
+                                                          </div>
+                                                        </form>
+                                                      </div>
+                                                    </div>
+                                                    {% endif %}
+                                                  {% endfor %}
+                                                </tbody>
+                                             </table>
+                                       </div>
+                                    </div>
+                                  </div>
+                             </div>
+                             <!-- Contact lens Table -->
+                             <div class="tab-pane fade" id="contact-lens" role="tabpanel">
+                                  <div class="card shadow mt-2">
+                                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                        <h6 class="m-0 font-weight-bold text-red">Contact Lenses Table</h6>
+                                        <input type="text" class="form-control1 w-25" placeholder="Search Item">
+                                    </div>
+                                    <div class="card-body">
+                                       <div class="table-responsive">
+                                             <table class="table table-hover text-center">
+                                                <thead class="table-light">
+                                                  <tr>
+                                                    <th>Contact Lens ID<</th>
+                                                    <th>Brand</th>
+                                                    <th>Model Name</th>
+                                                    <th>Color</th>
+                                                    <th>Material</th>
+                                                    <th>Modality</th>
+                                                    <th>Lens Type</th>
+                                                    <th>Water Content (%)</th>
+                                                    <th>Box Content</th>
+                                                    <th>Added Date</th>
+                                                    <th>Expiry Date</th>
+                                                    <th>Price per Box</th>
+                                                    <th>Supplier</th>
+                                                    <th>Current Stock</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                                  </tr>
+                                                </thead>
+                                                <tbody>
+                                                   {% for item in inventory_data %}
+                                                    {% if item.table == 'contactlensinventory' %}
+                                                      {% set contact = item.item_data %}
+                                                      <tr>
+                                                        <td>{{ contact.contact_lens_id }}</td>
+                                                        <td>{{ contact.brand }}</td>
+                                                        <td>{{ contact.model_name }}</td>
+                                                        <td>{{ contact.color }}</td>
+                                                        <td>{{ contact.material }}</td>
+                                                        <td>{{ contact.modality }}</td>
+                                                        <td>{{ contact.lens_type }}</td>
+                                                        <td>{{ contact.water_content }}</td>
+                                                        <td>{{ contact.box_content }}</td>
+                                                        <td>{{ contact.added_date }}</td>
+                                                        <td>{{ contact.expiry_date }}</td>
+                                                        <td>{{ contact.price_per_box }}</td>
+                                                        <td>{{ contact.supplier }}</td>
+                                                        <td class="text-center">
+                                                            <div class="d-flex flex-column align-items-center justify-content-center">
+                                                              <span class="mb-1 font-weight-bold" style="font-size: 14px;">{{ item.stock }} items</span>
+                                                              <div class="progress w-75" style="height: 8px;">
+                                                                <div class="progress-bar {{ item.bar_color }}"
+                                                                     role="progressbar"
+                                                                     style="width: {{ item.stock_percent }}%;"
+                                                                     aria-valuenow="{{ item.stock_percent }}"
+                                                                     aria-valuemin="0" aria-valuemax="100">
+                                                                </div>
+                                                              </div>
+                                                              <span class="mt-1 font-weight-bold {{ item.labeltext }}" style="font-size: 14px;">{{ item.label }}</span>
+                                                            </div>
+                                                        </td>
+                                                        <td><span class="badge {{ item.badge }} p-2">{{ contact.status }}</span></td>
+                                                        <td class="d-flex flex-row align-items-center justify-content-between">
+                                                          <button class="btn btn-sm btn-outline-primary mr-1"
+                                                                  data-bs-toggle="modal"
+                                                                  data-bs-target="#editContactlens{{ contact.contact_lens_id }}">
+                                                            <i class="fas fa-edit"></i>
+                                                          </button>
+                                                          </button>
+                                                          <button class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
+                                                        </td>
+                                                      </tr>
+                                                    <!-- Edit Contactlens Modal -->
+                                                    <div class="modal fade" id="editContactlens{{ contact.contact_lens_id }}" tabindex="-1" aria-labelledby="editContactlens{{ contact.contact_lens_id }}" aria-hidden="true">
+                                                      <div class="modal-dialog modal-lg">
+                                                        <form id="editContactlensForm" method="POST" action="/add_exam">
+                                                          <div class="modal-content border-0 shadow-sm">
+                                                            <div class="modal-header bg-white justify-content-center position-relative">
+                                                              <h5 class="modal-title text-secondary text-center w-100" id="editContactlensLabel{{ contact.contact_lens_id }}">
+                                                                  Edit <br>
+                                                                  <span style="color: #9C2627; font-size: 24px; font-weight: bold;">{{ contact.contact_lens_id }}</span>
+                                                              </h5>
+                                                            </div>
+
+                                                            <div class="modal-body" style="background-color: #FEF5F3; max-height: 70vh; overflow-y: auto;">
+                                                              <div class="container-fluid">
+                                                                {% set fields = [
+                                                                  ('Brand', contact.brand, 'text'),
+                                                                  ('Model Name', contact.model_name, 'text'),
+                                                                  ('Color', contact.color, 'text'),
+                                                                  ('Material', contact.material, 'text'),
+                                                                  ('Modality', contact.modality, 'text'),
+                                                                  ('Lens Type', contact.lens_type, 'text'),
+                                                                  ('Water Content (%)', contact.water_content, 'text'),
+                                                                  ('Box Content', contact.box_content, 'text'),
+                                                                  ('Added Date', contact.added_date, 'date'),
+                                                                  ('Expiry Date', contact.expiry_date, 'date'),
+                                                                  ('Price per Box', contact.price_per_box, 'number'),
+                                                                  ('Supplier', contact.supplier, 'text'),
+                                                                  ('Current Stock', contact.current_stock, 'number')
+                                                                ] %}
+
+                                                                {% for label, value, type in fields %}
+                                                                <div class="row mb-3">
+                                                                  <div class="col-12">
+                                                                    <label class="form-label"><strong>{{ label }}</strong></label>
+                                                                    <input type="{{ type }}" class="form-control" value="{{ value }}">
+                                                                  </div>
+                                                                </div>
+                                                                {% endfor %}
+
+                                                                <!-- Status Dropdown -->
+                                                                <div class="row mb-3">
+                                                                  <div class="col-12">
+                                                                    <label class="form-label"><strong>Status</strong></label>
+                                                                    <div class="dropdown w-100">
+                                                                      <button class="btn btn-secondary dropdown-toggle w-100 text-start" type="button" id="statusContactlensDropdown{{ contact.contact_lens_id }}" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                        <span id="selectedStatus{{ contact.contact_lens_id }}">{{ contact.status or 'Select Status' }}</span>
+                                                                      </button>
+                                                                      <ul class="dropdown-menu w-100" aria-labelledby="statusContactlensDropdown{{ contact.contact_lens_id }}">
+                                                                        <li><a class="dropdown-item" href="#" onclick="setStatusContactlens('{{ contact.contact_lens_id }}', 'High')">High</a></li>
+                                                                        <li><a class="dropdown-item" href="#" onclick="setStatusContactlens('{{ contact.contact_lens_id }}', 'Medium')">Medium</a></li>
+                                                                        <li><a class="dropdown-item" href="#" onclick="setStatusContactlens('{{ contact.contact_lens_id }}', 'Low')">Low</a></li>
+                                                                      </ul>
+                                                                      <input type="hidden" id="statusInputContactlens{{ contact.contact_lens_id }}" name="status" value="{{ contact.status }}">
+                                                                    </div>
+                                                                  </div>
+                                                                </div>
+                                                              </div>
+                                                            </div>
+
+                                                            <div class="modal-footer bg-white">
+                                                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                              <button type="submit" class="btn btn-success">Save</button>
+                                                            </div>
+                                                          </div>
+                                                        </form>
+                                                      </div>
+                                                    </div>
+                                                    {% endif %}
+                                                  {% endfor %}
+                                                </tbody>
+                                              </table>
+                                       </div>
+                                    </div>
+                                  </div>
+                             </div>
+                             <!-- Sunglasses Table -->
+                             <div class="tab-pane fade" id="sunglasses" role="tabpanel">
+                                  <div class="card shadow mt-2">
+                                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                        <h6 class="m-0 font-weight-bold text-red">Sunglasses Table</h6>
+                                        <input type="text" class="form-control1 w-25" placeholder="Search Item">
+                                    </div>
+                                    <div class="card-body">
+                                       <div class="table-responsive">
+                                             <table class="table table-hover text-center">
+                                                <thead class="table-light">
+                                                  <tr>
+                                                    <th>Sunglass ID</th>
+                                                    <th>Brand</th>
+                                                    <th>Model Name</th>
+                                                    <th>Frame Type</th>
+                                                    <th>Frame Material</th>
+                                                    <th>Frame Color</th>
+                                                    <th>Frame Shape</th>
+                                                    <th>Lens Color</th>
+                                                    <th>Lens Material</th>
+                                                    <th>Lens Type</th>
+                                                    <th>Price</th>
+                                                    <th>Added Date</th>
+                                                    <th>Supplier</th>
+                                                    <th>Current Stock</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                                  </tr>
+                                                </thead>
+                                                <tbody>
+                                                   {% for item in inventory_data %}
+                                                    {% if item.table == 'sunglassinventory' %}
+                                                      {% set sunglass = item.item_data %}
+                                                      <tr>
+                                                        <td>{{ sunglass.sunglass_id }}</td>
+                                                        <td>{{ sunglass.brand }}</td>
+                                                        <td>{{ sunglass.model_name }}</td>
+                                                        <td>{{ sunglass.frame_type }}</td>
+                                                        <td>{{ sunglass.frame_material }}</td>
+                                                        <td>{{ sunglass.frame_color }}</td>
+                                                        <td>{{ sunglass.frame_shape }}</td>
+                                                        <td>{{ sunglass.lens_color }}</td>
+                                                        <td>{{ sunglass.lens_material }}</td>
+                                                        <td>{{ sunglass.lens_type }}</td>
+                                                        <td>{{ sunglass.price }}</td>
+                                                        <td>{{ sunglass.added_date }}</td>
+                                                        <td>{{ sunglass.supplier }}</td>
+                                                        <td class="text-center">
+                                                            <div class="d-flex flex-column align-items-center justify-content-center">
+                                                              <span class="mb-1 font-weight-bold" style="font-size: 14px;">{{ item.stock }} items</span>
+                                                              <div class="progress w-75" style="height: 8px;">
+                                                                <div class="progress-bar {{ item.bar_color }}"
+                                                                     role="progressbar"
+                                                                     style="width: {{ item.stock_percent }}%;"
+                                                                     aria-valuenow="{{ item.stock_percent }}"
+                                                                     aria-valuemin="0" aria-valuemax="100">
+                                                                </div>
+                                                              </div>
+                                                              <span class="mt-1 font-weight-bold {{ item.labeltext }}" style="font-size: 14px;">{{ item.label }}</span>
+                                                            </div>
+                                                        </td>
+                                                        <td><span class="badge {{ item.badge }} p-2">{{ sunglass.status }}</span></td>
+                                                        <td class="d-flex flex-row align-items-center justify-content-between">
+                                                          <button class="btn btn-sm btn-outline-primary mr-1"
+                                                                  data-bs-toggle="modal"
+                                                                  data-bs-target="#editSunglass{{ sunglass.sunglass_id }}">
+                                                            <i class="fas fa-edit"></i>
+                                                          </button>
+                                                          <button class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
+                                                        </td>
+                                                      </tr>
+                                                    <!-- Edit Sunglass Modal -->
+                                                    <div class="modal fade" id="editSunglass{{ sunglass.sunglass_id }}" tabindex="-1" aria-labelledby="editSunglass{{ sunglass.sunglass_id }}" aria-hidden="true">
+                                                      <div class="modal-dialog modal-lg">
+                                                        <form id="editSunglassForm" method="POST" action="/add_exam">
+                                                          <div class="modal-content border-0 shadow-sm">
+                                                            <div class="modal-header bg-white justify-content-center position-relative">
+                                                              <h5 class="modal-title text-secondary text-center w-100" id="editSunglassLabel{{ sunglass.sunglass_id }}">
+                                                                  Edit <br>
+                                                                  <span style="color: #9C2627; font-size: 24px; font-weight: bold;">{{ sunglass.sunglass_id }}</span>
+                                                              </h5>
+                                                            </div>
+
+                                                            <div class="modal-body" style="background-color: #FEF5F3; max-height: 70vh; overflow-y: auto;">
+                                                              <div class="container-fluid">
+                                                                {% set fields = [
+                                                                  ('Brand', sunglass.brand, 'text'),
+                                                                  ('Model Name', sunglass.model_name, 'text'),
+                                                                  ('Frame Type', sunglass.frame_type, 'text'),
+                                                                  ('Frame Material', sunglass.frame_material, 'text'),
+                                                                  ('Frame Color', sunglass.frame_color, 'text'),
+                                                                  ('Frame Shape', sunglass.frame_shape, 'text'),
+                                                                  ('Lens Color', sunglass.lens_color, 'text'),
+                                                                  ('Lens Material', sunglass.lens_material, 'text'),
+                                                                  ('Lens Type', sunglass.lens_type, 'text'),
+                                                                  ('Price', sunglass.price, 'number'),
+                                                                  ('Added Date', sunglass.added_date, 'date'),
+                                                                  ('Supplier', sunglass.supplier, 'text'),
+                                                                  ('Current Stock', sunglass.current_stock, 'number')
+                                                                ] %}
+
+                                                                {% for label, value, type in fields %}
+                                                                <div class="row mb-3">
+                                                                  <div class="col-12">
+                                                                    <label class="form-label"><strong>{{ label }}</strong></label>
+                                                                    <input type="{{ type }}" class="form-control" value="{{ value }}">
+                                                                  </div>
+                                                                </div>
+                                                                {% endfor %}
+
+                                                                <!-- Status Dropdown -->
+                                                                <div class="row mb-3">
+                                                                  <div class="col-12">
+                                                                    <label class="form-label"><strong>Status</strong></label>
+                                                                    <div class="dropdown w-100">
+                                                                      <button class="btn btn-secondary dropdown-toggle w-100 text-start" type="button" id="statusSunglassDropdown{{ sunglass.sunglass_id }}" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                        <span id="selectedStatus{{ sunglass.sunglass_id }}">{{ sunglass.status or 'Select Status' }}</span>
+                                                                      </button>
+                                                                      <ul class="dropdown-menu w-100" aria-labelledby="statusSunglassDropdown{{ sunglass.sunglass_id }}">
+                                                                        <li><a class="dropdown-item" href="#" onclick="setStatusSunglass('{{ sunglass.sunglass_id }}', 'High')">High</a></li>
+                                                                        <li><a class="dropdown-item" href="#" onclick="setStatusSunglass('{{ sunglass.sunglass_id }}', 'Medium')">Medium</a></li>
+                                                                        <li><a class="dropdown-item" href="#" onclick="setStatusSunglass('{{ sunglass.sunglass_id }}', 'Low')">Low</a></li>
+                                                                      </ul>
+                                                                      <input type="hidden" id="statusInputSunglass{{ sunglass.sunglass_id }}" name="status" value="{{ sunglass.status }}">
+                                                                    </div>
+                                                                  </div>
+                                                                </div>
+                                                              </div>
+                                                            </div>
+
+                                                            <div class="modal-footer bg-white">
+                                                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                              <button type="submit" class="btn btn-success">Save</button>
+                                                            </div>
+                                                          </div>
+                                                        </form>
+                                                      </div>
+                                                    </div>
+                                                    {% endif %}
+                                                  {% endfor %}
+                                                </tbody>
+                                             </table>
+                                       </div>
+                                    </div>
+                                  </div>
+                             </div>
+                             <!-- Lens Cleaning Table -->
+                             <div class="tab-pane fade" id="lens-cleaning" role="tabpanel">
+                                  <div class="card shadow mt-2">
+                                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                        <h6 class="m-0 font-weight-bold text-red">Lens Cleaning Solution or Spray Table</h6>
+                                        <input type="text" class="form-control1 w-25" placeholder="Search Item">
+                                    </div>
+                                    <div class="card-body">
+                                       <div class="table-responsive">
+                                             <table class="table table-hover text-center">
+                                                <thead class="table-light">
+                                                  <tr>
+                                                    <th>Lens Cleaning ID</th>
+                                                    <th>Brand</th>
+                                                    <th>Product Name</th>
+                                                    <th>Volume (ml)</th>
+                                                    <th>Spray Type</th>
+                                                    <th>Package Includes</th>
+                                                    <th>Price</th>
+                                                    <th>Added Date</th>
+                                                    <th>Expiration Date</th>
+                                                    <th>Supplier</th>
+                                                    <th>Current Stock</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                                  </tr>
+                                                </thead>
+                                                <tbody>
+                                                   {% for item in inventory_data %}
+                                                    {% if item.table == 'lenscleaninginventory' %}
+                                                      {% set lenscleaning = item.item_data %}
+                                                      <tr>
+                                                        <td>{{ lenscleaning.lens_cleaning_id }}</td>
+                                                        <td>{{ lenscleaning.brand }}</td>
+                                                        <td>{{ lenscleaning.product_name }}</td>
+                                                        <td>{{ lenscleaning.volume_ml }}</td>
+                                                        <td>{{ lenscleaning.spray_type }}</td>
+                                                        <td>{{ lenscleaning.package_includes }}</td>
+                                                        <td>{{ lenscleaning.price }}</td>
+                                                        <td>{{ lenscleaning.added_date }}</td>
+                                                        <td>{{ lenscleaning.expiration_date }}</td>
+                                                        <td>{{ lenscleaning.supplier }}</td>
+                                                        <td class="text-center">
+                                                            <div class="d-flex flex-column align-items-center justify-content-center">
+                                                              <span class="mb-1 font-weight-bold" style="font-size: 14px;">{{ item.stock }} items</span>
+                                                              <div class="progress w-75" style="height: 8px;">
+                                                                <div class="progress-bar {{ item.bar_color }}"
+                                                                     role="progressbar"
+                                                                     style="width: {{ item.stock_percent }}%;"
+                                                                     aria-valuenow="{{ item.stock_percent }}"
+                                                                     aria-valuemin="0" aria-valuemax="100">
+                                                                </div>
+                                                              </div>
+                                                              <span class="mt-1 font-weight-bold {{ item.labeltext }}" style="font-size: 14px;">{{ item.label }}</span>
+                                                            </div>
+                                                        </td>
+                                                        <td><span class="badge {{ item.badge }} p-2">{{ lenscleaning.status }}</span></td>
+                                                        <td class="d-flex flex-row align-items-center justify-content-between">
+                                                          <button class="btn btn-sm btn-outline-primary mr-1"
+                                                                  data-bs-toggle="modal"
+                                                                  data-bs-target="#editLensCleaning{{ lenscleaning.lens_cleaning_id }}">
+                                                            <i class="fas fa-edit"></i>
+                                                          </button>
+                                                          <button class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
+                                                        </td>
+                                                      </tr>
+                                                    <!-- Edit Lenscleaning Modal -->
+                                                    <div class="modal fade" id="editLensCleaning{{ lenscleaning.lens_cleaning_id }}" tabindex="-1" aria-labelledby="editLensCleaning{{ lenscleaning.lens_cleaning_id }}" aria-hidden="true">
+                                                      <div class="modal-dialog modal-lg">
+                                                        <form id="editLenscleaningForm" method="POST" action="/add_exam">
+                                                          <div class="modal-content border-0 shadow-sm">
+                                                            <div class="modal-header bg-white justify-content-center position-relative">
+                                                              <h5 class="modal-title text-secondary text-center w-100" id="editLenscleaningLabel{{ lenscleaning.lens_cleaning_id }}">
+                                                                  Edit <br>
+                                                                  <span style="color: #9C2627; font-size: 24px; font-weight: bold;">{{ lenscleaning.lens_cleaning_id }}</span>
+                                                              </h5>
+                                                            </div>
+
+                                                            <div class="modal-body" style="background-color: #FEF5F3; max-height: 70vh; overflow-y: auto;">
+                                                              <div class="container-fluid">
+                                                                {% set fields = [
+                                                                  ('Brand', lenscleaning.brand, 'text'),
+                                                                  ('Product Name', lenscleaning.product_name, 'text'),
+                                                                  ('Volume (ml)', lenscleaning.volume_ml , 'number'),
+                                                                  ('Spray Type', lenscleaning.spray_type, 'text'),
+                                                                  ('Package Includes', lenscleaning.package_includes, 'text'),
+                                                                  ('Price', lenscleaning.price, 'number'),
+                                                                  ('Added Date', lenscleaning.added_date, 'date'),
+                                                                  ('Expiration Date', lenscleaning.expiration_date, 'date'),
+                                                                  ('Supplier', lenscleaning.supplier, 'text'),
+                                                                  ('Current Stock', lenscleaning.current_stock, 'number')
+                                                                ] %}
+
+                                                                {% for label, value, type in fields %}
+                                                                <div class="row mb-3">
+                                                                  <div class="col-12">
+                                                                    <label class="form-label"><strong>{{ label }}</strong></label>
+                                                                    <input type="{{ type }}" class="form-control" value="{{ value }}">
+                                                                  </div>
+                                                                </div>
+                                                                {% endfor %}
+
+                                                                <!-- Status Dropdown -->
+                                                                <div class="row mb-3">
+                                                                  <div class="col-12">
+                                                                    <label class="form-label"><strong>Status</strong></label>
+                                                                    <div class="dropdown w-100">
+                                                                      <button class="btn btn-secondary dropdown-toggle w-100 text-start" type="button" id="statusLenscleaningDropdown{{ lenscleaning.lens_cleaning_id }}" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                        <span id="selectedStatus{{ lenscleaning.lens_cleaning_id }}">{{ lenscleaning.status or 'Select Status' }}</span>
+                                                                      </button>
+                                                                      <ul class="dropdown-menu w-100" aria-labelledby="statusLenscleaningDropdown{{ lenscleaning.lens_cleaning_id }}">
+                                                                        <li><a class="dropdown-item" href="#" onclick="setStatusLenscleaning('{{ lenscleaning.lens_cleaning_id }}', 'High')">High</a></li>
+                                                                        <li><a class="dropdown-item" href="#" onclick="setStatusLenscleaning('{{ lenscleaning.lens_cleaning_id }}', 'Medium')">Medium</a></li>
+                                                                        <li><a class="dropdown-item" href="#" onclick="setStatusLenscleaning('{{ lenscleaning.lens_cleaning_id }}', 'Low')">Low</a></li>
+                                                                      </ul>
+                                                                      <input type="hidden" id="statusInputLenscleaning{{ lenscleaning.lens_cleaning_id }}" name="status" value="{{ lenscleaning.status }}">
+                                                                    </div>
+                                                                  </div>
+                                                                </div>
+                                                              </div>
+                                                            </div>
+                                                            <div class="modal-footer bg-white">
+                                                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                              <button type="submit" class="btn btn-success">Save</button>
+                                                            </div>
+                                                          </div>
+                                                        </form>
+                                                      </div>
+                                                    </div>
+                                                    {% endif %}
+                                                  {% endfor %}
+                                                </tbody>
+                                             </table>
+                                       </div>
+                                    </div>
+                                  </div>
+                             </div>
+                             <!-- Eyeglass Case Table -->
+                             <div class="tab-pane fade" id="eyeglass-case" role="tabpanel">
+                                  <div class="card shadow mt-2">
+                                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                        <h6 class="m-0 font-weight-bold text-red">Eyeglass Case Table</h6>
+                                        <input type="text" class="form-control1 w-25" placeholder="Search Item">
+                                    </div>
+                                    <div class="card-body">
+                                       <div class="table-responsive">
+                                             <table class="table table-hover text-center">
+                                                <thead class="table-light">
+                                                  <tr>
+                                                    <th>Eyeglass Case ID<</th>
+                                                    <th>Brand</th>
+                                                    <th>Model Name</th>
+                                                    <th>Material</th>
+                                                    <th>Color</th>
+                                                    <th>Modality</th>
+                                                    <th>Type</th>
+                                                    <th>Compatible Frame Sizes</th>
+                                                    <th>Closure Type</th>
+                                                    <th>Price</th>
+                                                    <th>Added Date</th>
+                                                    <th>Supplier</th>
+                                                    <th>Current Stock</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                                  </tr>
+                                                </thead>
+                                                <tbody>
+                                                   {% for item in inventory_data %}
+                                                    {% if item.table == 'eyeglasscaseinventory' %}
+                                                      {% set glass = item.item_data %}
+                                                      <tr>
+                                                        <td>{{ glass.eyeglass_case_id }}</td>
+                                                        <td>{{ glass.brand }}</td>
+                                                        <td>{{ glass.model_name }}</td>
+                                                        <td>{{ glass.material }}</td>
+                                                        <td>{{ glass.color }}</td>
+                                                        <td>{{ glass.modality }}</td>
+                                                        <td>{{ glass.type }}</td>
+                                                        <td>{{ glass.compatible_frame_sizes }}</td>
+                                                        <td>{{ glass.closure_type }}</td>
+                                                        <td>{{ glass.price }}</td>
+                                                        <td>{{ glass.added_date }}</td>
+                                                        <td>{{ glass.supplier }}</td>
+                                                        <td class="text-center">
+                                                            <div class="d-flex flex-column align-items-center justify-content-center">
+                                                              <span class="mb-1 font-weight-bold" style="font-size: 14px;">{{ item.stock }} items</span>
+                                                              <div class="progress w-75" style="height: 8px;">
+                                                                <div class="progress-bar {{ item.bar_color }}"
+                                                                     role="progressbar"
+                                                                     style="width: {{ item.stock_percent }}%;"
+                                                                     aria-valuenow="{{ item.stock_percent }}"
+                                                                     aria-valuemin="0" aria-valuemax="100">
+                                                                </div>
+                                                              </div>
+                                                              <span class="mt-1 font-weight-bold {{ item.labeltext }}" style="font-size: 14px;">{{ item.label }}</span>
+                                                            </div>
+                                                        </td>
+                                                        <td><span class="badge {{ item.badge }} p-2">{{ glass.status }}</span></td>
+                                                        <td class="d-flex flex-row align-items-center justify-content-between">
+                                                            <button class="btn btn-sm btn-outline-primary mr-1"
+                                                                  data-bs-toggle="modal"
+                                                                  data-bs-target="#editLensCleaning{{ lenscleaning.lens_cleaning_id }}">
+                                                                <i class="fas fa-edit"></i>
+                                                            </button>
+                                                          <button class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
+                                                        </td>
+                                                      </tr>
+                                                    {% endif %}
+                                                  {% endfor %}
+                                                </tbody>
+                                              </table>
+                                       </div>
+                                    </div>
+                                  </div>
+                             </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Bootstrap (with Popper for modal) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="static/vendor/jquery/jquery.min.js"></script>
+    <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="static/js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="static/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="static/js/demo/datatables-demo.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      function setStatus(id, value) {
+        document.getElementById('selectedStatus' + id).textContent = value;
+        document.getElementById('statusInput' + id).value = value;
+      }
+      function setStatusContactlens(id, value) {
+        document.getElementById('selectedStatus' + id).textContent = value;
+        document.getElementById('statusInputContactlens' + id).value = value;
+      }
+      function setStatusSunglass(id, value) {
+        document.getElementById('selectedStatus' + id).textContent = value;
+        document.getElementById('statusInputSunglass' + id).value = value;
+      }
+      function setStatusLenscleaning(id, value) {
+        document.getElementById('selectedStatus' + id).textContent = value;
+        document.getElementById('statusInputLenscleaning' + id).value = value;
+      }
+    </script>
+
+</body>
+</html>

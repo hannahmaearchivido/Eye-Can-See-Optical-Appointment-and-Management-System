@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Eye Can See Optical - Inventory Management</title>
+
+    <!-- Custom fonts for this templates -->
+    <link href="static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link rel="icon" href="static/img/icon logo.png" type="image/png">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this templates -->
+    <link href="static/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Custom styles for this page -->
+    <link href="static/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <img src="static/img/eye can see - logo.png" alt="Eye Can See" class="navbar-logo" />
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('index') }}">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+             <!-- Nav Item - Appointment -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('appointments') }}">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>Appointment</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Nav Item - Patient Records -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('patient_records') }}">
+                    <i class="fas fa-user"></i>
+                    <span>Patient Records</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Nav Item - Inventory with Sub Menu -->
+            <li class="nav-item active">
+                <a class="nav-link collapsed" href="#"
+                   data-toggle="collapse"
+                   data-target="#collapseInventory"
+                   aria-expanded="false" aria-controls="collapseInventory">
+                    <i class="fas fa-boxes"></i>
+                    <span>Inventory</span>
+                </a>
+                <div id="collapseInventory" class="collapse show" aria-labelledby="headingInventory" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="{{ url_for('inventory') }}"><i class="fas fa-search mr-2"></i>View Inventory</a>
+                        <a class="collapse-item" href="{{ url_for('optical_product_table') }}"><i class="fas fa-glasses mr-2"></i>Optical Products</a>
+                        <a class="collapse-item" href="{{ url_for('lens_table') }}"><i class="fas fa-eye mr-2"></i>Lens Add Ons</a>
+                        <a class="collapse-item active" href="{{ url_for('add_new_product_form') }}"><i class="fas fa-plus mr-2"></i>Add New Product</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Nav Item - Invoice & Payments -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseInvoice"
+                   aria-expanded="false" aria-controls="collapseInvoice">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span>Invoice & Payments</span>
+                </a>
+                <div id="collapseInvoice" class="collapse" aria-labelledby="headingInvoice" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+
+                        <!-- Regular link -->
+                        <a class="collapse-item" href="{{ url_for('invoices') }}"><i class="fas fa-search mr-2"></i>View Invoice</a>
+
+                        <!-- Collapsible Submenu -->
+                        <a class="collapse-item collapsed" href="#" data-toggle="collapse" data-target="#subMenuProducts"
+                           aria-expanded="false" aria-controls="subMenuProducts"><i class="fas fa-stethoscope mr-2"></i>
+                            Our Services
+                        </a>
+                        <div id="subMenuProducts" class="collapse">
+                            <a class="collapse-item ml-3" href="{{ url_for('invoice_eyeexam') }}"><i class="fas fa-file-alt mr-2"></i>Eye Exams</a>
+                            <a class="collapse-item ml-3" href="{{ url_for('invoice_opticalproduct') }}"><i class="fas fa-glasses mr-2"></i>Optical Products</a>
+                            <a class="collapse-item ml-3" href="{{ url_for('invoice_lens') }}"><i class="fas fa-eye mr-2"></i>Lens Add-ons</a>
+                            <a class="collapse-item ml-3" href="{{ url_for('add_new_record_form') }}"><i class="fas fa-plus mr-2"></i>Add New Record</a>
+                        </div>
+
+                        <!-- Another regular link -->
+                        <a class="collapse-item" href="{{ url_for('invoice_billing') }}"><i class="fas fa-file-invoice mr-2"></i>Billing Services</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+        </ul>
+        <!-- End of Sidebar -->
+
+         <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <form class="form-inline">
+                        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                    </form>
+
+                      <!-- Topbar Search -->
+                    <form
+                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                        <div class="input-group">
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                                aria-label="Search" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="button">
+                                    <i class="fas fa-search fa-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+
+                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                        <li class="nav-item dropdown no-arrow d-sm-none">
+                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-search fa-fw"></i>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                                aria-labelledby="searchDropdown">
+                                <form class="form-inline mr-auto w-100 navbar-search">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control bg-light border-0 small"
+                                            placeholder="Search for..." aria-label="Search"
+                                            aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="button">
+                                                <i class="fas fa-search fa-sm"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+
+                        <!-- Nav Item - Alerts -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-bell fa-fw"></i>
+                                <!-- Counter - Alerts -->
+                                <span class="badge badge-danger badge-counter">3+</span>
+                            </a>
+                            <!-- Dropdown - Alerts -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="alertsDropdown">
+                                <h6 class="dropdown-header" style="background-color: #9C2627;">
+                                    Alerts Center
+                                </h6>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-primary">
+                                            <i class="fas fa-file-alt text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 12, 2019</div>
+                                        <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-success">
+                                            <i class="fas fa-donate text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 7, 2019</div>
+                                        $290.29 has been deposited into your account!
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-warning">
+                                            <i class="fas fa-exclamation-triangle text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 2, 2019</div>
+                                        Spending Alert: We've noticed unusually high spending for your account.
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                            </div>
+                        </li>
+
+                        <!-- Nav Item - Messages -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-envelope fa-fw"></i>
+                                <!-- Counter - Messages -->
+                                <span class="badge badge-danger badge-counter">7</span>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="messagesDropdown">
+                                <h6 class="dropdown-header" style="background-color: #9C2627;">
+                                    Message Center
+                                </h6>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="static/img/undraw_profile_1.svg"
+                                            alt="...">
+                                        <div class="status-indicator bg-success"></div>
+                                    </div>
+                                    <div class="font-weight-bold">
+                                        <div class="text-truncate">Hi there! I am wondering if you can help me with a
+                                            problem I've been having.</div>
+                                        <div class="small text-gray-500">Emily Fowler · 58m</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="static/img/undraw_profile_2.svg"
+                                            alt="...">
+                                        <div class="status-indicator"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">I have the photos that you ordered last month, how
+                                            would you like them sent to you?</div>
+                                        <div class="small text-gray-500">Jae Chun · 1d</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="static/img/undraw_profile_3.svg"
+                                            alt="...">
+                                        <div class="status-indicator bg-warning"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">Last month's report looks great, I am very happy with
+                                            the progress so far, keep up the good work!</div>
+                                        <div class="small text-gray-500">Morgan Alvarez · 2d</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"
+                                            alt="...">
+                                        <div class="status-indicator bg-success"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">Am I a good boy? The reason I ask is because someone
+                                            told me that people say this to all dogs, even if they aren't good...</div>
+                                        <div class="small text-gray-500">Chicken the Dog · 2w</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+                            </div>
+                        </li>
+
+                        <div class="topbar-divider d-none d-sm-block"></div>
+
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Hannah Archivido</span>
+                                <img class="img-profile rounded-circle"
+                                    src="static/img/undraw_profile.svg">
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Profile
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Settings
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Activity Log
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </nav>
+                <!-- End of Topbar -->
+
+                 <!-- Begin Page Content -->
+                <div class="container-fluid">
+                      <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h2 font-weight-bold mb-0 text-gray-900">INVENTORY MANAGEMENT</h1>
+                    </div>
+
+                    <!-- Products Category Buttons -->
+                    <div class="row mb-4 g-2 mt-5 justify-content-center">
+                        <div class="col-6 col-md-3">
+                            <button class="btn btn-secondary1 w-100 active" onclick="showTab('optical')">Optical Products</button>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <button class="btn btn-secondary1 w-100" onclick="showTab('add-ons')">Lens Add-ons</button>
+                        </div>
+                    </div>
+
+                    <div id="optical" class="service-tab" style="display:block;">
+                        <div class="container mt-4">
+                            <div class="card shadow mt-2 mb-4">
+                                <div class="card-header text-center">
+                                    <h5 class="mb-0 font-weight-bold"><strong>Add New Product</strong></h5>
+                                </div>
+                                <div class="card-body">
+                                    <form id="addServiceFormNewOpticalProduct" method="POST" action="/add_new_product">
+
+                                        <!-- Product Type Selector -->
+                                        <div class="form-group mb-2">
+                                            <label><strong>Product Type</strong></label>
+                                            <div class="dropdown w-100"
+                                                 onmouseover="this.querySelector('.dropdown-menu').classList.add('show')"
+                                                 onmouseleave="this.querySelector('.dropdown-menu').classList.remove('show')">
+                                                <button class="btn btn-secondary dropdown-toggle w-100" type="button" id="productTypeDropdown">
+                                                    Select Product Type
+                                                </button>
+                                                <div class="dropdown-menu w-100" aria-labelledby="productTypeDropdown" style="max-height: 300px; overflow-y: auto;">
+                                                    <a class="dropdown-item" href="#" onclick="selectProductType('eyeglassframe')">Eyeglass Frames</a>
+                                                    <a class="dropdown-item" href="#" onclick="selectProductType('contactlens')">Contact Lenses</a>
+                                                    <a class="dropdown-item" href="#" onclick="selectProductType('sunglass')">Sunglasses</a>
+                                                    <a class="dropdown-item" href="#" onclick="selectProductType('lenscleaning')">Lens Cleaning Solution/Spray</a>
+                                                    <a class="dropdown-item" href="#" onclick="selectProductType('eyeglasscase')">Eyeglass Cases</a>
+                                                    <a class="dropdown-item" href="#" onclick="selectProductType('contactlenscase')">Contact Lens Cases</a>
+                                                    <a class="dropdown-item" href="#" onclick="selectProductType('contactlenssolution')">Contact Lens Solution</a>
+                                                    <a class="dropdown-item" href="#" onclick="selectProductType('repairkit')">Repair Kits</a>
+                                                    <a class="dropdown-item" href="#" onclick="selectProductType('cliponlens')">Clip-on Lens</a>
+                                                    <a class="dropdown-item" href="#" onclick="selectProductType('frameaccessory')">Frame Accessory</a>
+                                                </div>
+                                                <input type="hidden" id="product_type" name="product_type" required>
+                                            </div>
+                                        </div>
+
+                                        <!-- Eyeglass Frames Fields -->
+                                        <div id="eyeglassframe_fields" class="product-section" style="display: none;">
+                                            <h6 class="font-weight-bold mb-4 mt-4"><i class="fas fa-glasses mr-2"></i>Eyeglass Frame Fields</h6>
+                                            <div class="form-group">
+                                                <label><strong>Frame Brand</strong></label>
+                                                <input type="text" class="form-control1" name="frame_brand" placeholder="Enter frame brand" required>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label><strong>Model Name</strong></label>
+                                                <input type="text" class="form-control1" name="model_number" placeholder="Enter model name" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Frame Type</strong></label>
+                                                <input type="text" class="form-control1" name="frame_type" placeholder="Enter frame type" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Frame Color</strong></label>
+                                                <input type="text" class="form-control1" name="frame_color" placeholder="Enter frame color" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Frame Shape</strong></label>
+                                                <input type="text" class="form-control1" name="frame_shape" placeholder="Enter frame shape" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Price</strong></label>
+                                                <input type="number" class="form-control1" name="price" placeholder="₱" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Added Date</strong></label>
+                                                <input type="date" class="form-control1" name="added_date" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Supplier</strong></label>
+                                                <input type="text" class="form-control1" name="supplier" placeholder="Enter supplier" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Current Stock</strong></label>
+                                                <input type="number" class="form-control1" name="current_stock" placeholder="Enter current stock" required>
+                                            </div>
+                                        </div>
+
+                                        <!-- Contact Lens Fields -->
+                                        <div id="contactlens_fields" class="product-section" style="display: none;">
+                                            <h6 class="mb-4 mt-4 font-weight-bold"><i class="fas fa-eye mr-2"></i>Contact Lens Fields</h6>
+                                            <div class="form-group">
+                                                <label><strong>Brand</strong></label>
+                                                <input type="text" class="form-control1" id="brand" name="brand" placeholder="Enter brand" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Model Name</strong></label>
+                                                <input type="text" class="form-control1" id="model_name" name="model_name" placeholder="Enter model name" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Color</strong></label>
+                                                <input type="text" class="form-control1" id="color" name="color" placeholder="Enter color" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Material</strong></label>
+                                                <input type="text" class="form-control1" id="material" name="material" placeholder="Enter material" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Modality</strong></label>
+                                                <input type="text" class="form-control1" id="modality" name="modality" placeholder="Enter modality" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Lens Type</strong></label>
+                                                <input type="text" class="form-control1" id="lens_type" name="lens_type" placeholder="Enter lens type" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Water Content (%)</strong></label>
+                                                <input type="number" class="form-control1" id="water_content" name="water_content" placeholder="Enter water content (%)" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Box Content</strong></label>
+                                                <input type="number" class="form-control1" id="box_content" name="box_content" placeholder="Enter box content" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Price per Box</strong></label>
+                                                <input type="number" class="form-control1" id="price_per_box" name="price_per_box" placeholder="₱" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Added Date</strong></label>
+                                                <input type="date" class="form-control1" id="added_date_contactlens" name="added_date_contactlens" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Expiry Date</strong></label>
+                                                <input type="date" class="form-control1" id="expiry_date_contactlens" name="added_date_contactlens" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Supplier</strong></label>
+                                                <input type="text" class="form-control1" id="supplier_contactlens" name="supplier_contactlens" placeholder="Enter supplier" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Current Stock</strong></label>
+                                                <input type="number" class="form-control1" id="current_stock_contactlens" name="current_stock_contactlens" placeholder="Enter current stock" required>
+                                            </div>
+                                        </div>
+
+                                         <!-- Sunglasses Fields -->
+                                        <div id="sunglass_fields" class="product-section" style="display: none;">
+                                            <h6 class="mb-4 mt-4 font-weight-bold"><i class="fas fa-glasses mr-2"></i>Sunglass Fields</h6>
+                                            <div class="form-group">
+                                                <label><strong>Brand</strong></label>
+                                                <input type="text" class="form-control1" id="brand_sunglass" name="brand_sunglass" placeholder="Enter brand" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Model Name</strong></label>
+                                                <input type="text" class="form-control1" id="model_name_sunglass" name="model_name_sunglass" placeholder="Enter model name" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Frame Type</strong></label>
+                                                <input type="text" class="form-control1" id="frame_type_sunglass" name="frame_type_sunglass" placeholder="Enter frame type" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Frame Material</strong></label>
+                                                <input type="text" class="form-control1" id="frame_material" name="frame_material" placeholder="Enter frame material" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Frame Color</strong></label>
+                                                <input type="text" class="form-control1" id="frame_color_sunglass" name="frame_color_sunglass" placeholder="Enter frame color" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Frame Shape</strong></label>
+                                                <input type="text" class="form-control1" id="frame_shape_sunglass" name="frame_shape_sunglass" placeholder="Enter frame shape" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Lens Color</strong></label>
+                                                <input type="text" class="form-control1" id="lens_color" name="lens_color" placeholder="Enter lens color" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Lens Material</strong></label>
+                                                <input type="text" class="form-control1" id="lens_material" name="lens_material" placeholder="Enter lens material" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Lens Type</strong></label>
+                                                <input type="text" class="form-control1" id="lens_type_sunglass" name="lens_type_sunglass" placeholder="Enter lens type" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Price</strong></label>
+                                                <input type="number" class="form-control1" id="price_sunglass" name="price_sunglass" placeholder="₱" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Added Date</strong></label>
+                                                <input type="date" class="form-control1" id="added_date_sunglass" name="added_date_sunglass" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Supplier</strong></label>
+                                                <input type="text" class="form-control1" id="supplier_sunglass" name="supplier_sunglass" placeholder="Enter supplier" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Current Stock</strong></label>
+                                                <input type="number" class="form-control1" id="current_stock_sunglass" name="current_stock_sunglass" placeholder="Enter current stock" required>
+                                            </div>
+                                        </div>
+
+                                          <!-- Lens Cleaning Fields -->
+                                        <div id="lenscleaning_fields" class="product-section" style="display: none;">
+                                            <h6 class="mb-4 mt-4 font-weight-bold"><i class="fas fa-pump-soap mr-2"></i>Lens Cleaning Fields</h6>
+                                            <div class="form-group">
+                                                <label><strong>Brand</strong></label>
+                                                <input type="text" class="form-control1" id="brand_lenscleaning" name="brand_lenscleaning" placeholder="Enter brand" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Product Name</strong></label>
+                                                <input type="text" class="form-control1" id="product_name" name="product_name" placeholder="Enter product name" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Volume (ml)</strong></label>
+                                                <input type="number" class="form-control1" id="volume_ml" name="volume_ml" placeholder="Enter volume (ml)" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Spray Type</strong></label>
+                                                <input type="text" class="form-control1" id="spray_type" name="spray_type" placeholder="Enter spray type" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Package Includes</strong></label>
+                                                <input type="text" class="form-control1" id="package_includes" name="package_includes" placeholder="Enter includes in package" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Price</strong></label>
+                                                <input type="number" class="form-control1" id="price_lenscleaning" name="price_lenscleaning" placeholder="₱" required>
+                                            </div>
+                                            <div class="form-group3">
+                                                <label><strong>Added Date</strong></label>
+                                                <input type="date" class="form-control1" id="added_date_lenscleaning" name="added_date_lenscleaning" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Expiration Date</strong></label>
+                                                <input type="date" class="form-control1" id="expiration_date" name="expiration_date" required>
+                                            </div>
+                                            <div class="form-group3">
+                                                <label><strong>Supplier</strong></label>
+                                                <input type="text" class="form-control1" id="supplier_lenscleaning" name="supplier_lenscleaning" placeholder="Enter supplier" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Current Stock</strong></label>
+                                                <input type="number" class="form-control1" id="current_stock_lenscleaning" name="current_stock_lenscleaning" placeholder="Enter current stock" required>
+                                            </div>
+                                        </div>
+                                          <!-- Eyeglass Case Fields -->
+                                        <div id="eyeglasscase_fields" class="product-section" style="display: none;">
+                                            <h6 class="mb-4 mt-4 font-weight-bold"><i class="fas fa-archive mr-2"></i>Eyeglass Case Fields</h6>
+                                            <div class="form-group">
+                                                <label><strong>Brand</strong></label>
+                                                <input type="text" class="form-control1" id="brand_eyeglasscase" name="brand_eyeglasscase" placeholder="Enter brand" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Model Name</strong></label>
+                                                <input type="text" class="form-control1" id="model_name_eyeglasscase" name="model_name_eyeglasscase" placeholder="Enter model name" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Material</strong></label>
+                                                <input type="number" class="form-control1" id="material_eyeglasscase" name="material_eyeglasscase" placeholder="Enter material" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Color</strong></label>
+                                                <input type="text" class="form-control1" id="color_eyeglasscase" name="color_eyeglasscase" placeholder="Enter color" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Type</strong></label>
+                                                <input type="text" class="form-control1" id="type" name="type" placeholder="Enter type" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Compatible Frame Sizes</strong></label>
+                                                <input type="text" class="form-control1" id="compatible_frame_sizes" name="compatible_frame_sizes" placeholder="Enter compatible frame sizes" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Closure Type</strong></label>
+                                                <input type="text" class="form-control1" id="closure_type" name="closure_type" placeholder="Enter closure type" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Price</strong></label>
+                                                <input type="number" class="form-control1" id="price_eyeglasscase" name="price_eyeglasscase" placeholder="₱" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Added Date</strong></label>
+                                                <input type="date" class="form-control1" id="added_date_eyeglasscase" name="added_date_eyeglasscase" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Supplier</strong></label>
+                                                <input type="text" class="form-control1" id="supplier_eyeglasscase" name="supplier_eyeglasscase" placeholder="Enter supplier" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Current Stock</strong></label>
+                                                <input type="number" class="form-control1" id="current_stock_eyeglasscase" name="current_stock_eyeglasscase" placeholder="Enter current stock" required>
+                                            </div>
+                                        </div>
+                                          <!-- Contactlens Case Fields -->
+                                        <div id="contactlenscase_fields" class="product-section" style="display: none;">
+                                            <h6 class="mb-4 mt-4 font-weight-bold"><i class="fas fa-capsules mr-2"></i>Contact Lens Case Fields</h6>
+                                            <div class="form-group">
+                                                <label><strong>Brand</strong></label>
+                                                <input type="text" class="form-control1" id="brand_contactlenscase" name="brand_contactlenscase" placeholder="Enter brand" required>
+                                            </div>
+                                            <div class="form-group3">
+                                                <label><strong>Model Name</strong></label>
+                                                <input type="text" class="form-control1" id="model_name_contactlenscase" name="model_name_contactlenscase" placeholder="Enter model name" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Case Type</strong></label>
+                                                <input type="text" class="form-control1" id="case_type" name="case_type" placeholder="Enter case type" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Material</strong></label>
+                                                <input type="text" class="form-control1" id="material_contactlenscase" name="material_contactlenscase" placeholder="Enter material" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Color</strong></label>
+                                                <input type="text" class="form-control1" id="color_contactlenscase" name="color_contactlenscase" placeholder="Enter color" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Capacity</strong></label>
+                                                <input type="text" class="form-control1" id="capacity" name="capacity" placeholder="Enter capacity" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Compatible Lens Types</strong></label>
+                                                <input type="text" class="form-control1" id="compatible_lens_types" name="compatible_lens_types" placeholder="Enter compatible lens types" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Price</strong></label>
+                                                <input type="number" class="form-control1" id="price_contactlenscase" name="price_contactlenscase" placeholder="₱" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Added Date</strong></label>
+                                                <input type="date" class="form-control1" id="added_date_contactlenscase" name="added_date_contactlenscase" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Supplier</strong></label>
+                                                <input type="text" class="form-control1" id="supplier_contactlenscase" name="supplier_contactlenscase" placeholder="Enter supplier" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Current Stock</strong></label>
+                                                <input type="number" class="form-control1" id="current_stock_contactlenscase" name="current_stock_contactlenscase" placeholder="Enter current stock" required>
+                                            </div>
+                                        </div>
+                                         <!-- Contactlens Solution Fields -->
+                                        <div id="contactlenssolution_fields" class="product-section" style="display: none;">
+                                            <h6 class="mb-4 mt-4 font-weight-bold"><i class="fas fa-pump-soap mr-2"></i>Contact Lens Solution Fields</h6>
+                                            <div class="form-group">
+                                                <label><strong>Brand</strong></label>
+                                                <input type="text" class="form-control1" id="brand_contactlenssolution" name="brand_contactlenssolution" placeholder="Enter brand" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Model Name</strong></label>
+                                                <input type="text" class="form-control1" id="model_name_contactlenssolution" name="contactlenssolution" placeholder="Enter model name" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Type</strong></label>
+                                                <input type="text" class="form-control1" id="type_contactlenssolution" name="type_contactlenssolution" placeholder="Enter type" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Volume (Ml)</strong></label>
+                                                <input type="number" class="form-control1" id="volume_ml_contactlenssolution" name="volume_ml_contactlenssolution" placeholder="Enter volume (ml)" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Bottle Count</strong></label>
+                                                <input type="number" class="form-control1" id="bottle_count" name="bottle_count" placeholder="Enter bottle count" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Suitable For</strong></label>
+                                                <input type="text" class="form-control1" id="suitable_for" name="suitable_for" placeholder="Enter suitable for" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Preservative Free</strong></label>
+                                                <input type="text" class="form-control1" id="preservative_free" name="preservative_free" placeholder="Enter yer or no" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Price</strong></label>
+                                                <input type="number" class="form-control1" id="price_contactlenssolution" name="price_contactlenssolution" placeholder="₱" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Added Date</strong></label>
+                                                <input type="date" class="form-control1" id="added_date_contactlenssolution" name="added_date_contactlenssolution" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Expiry Date</strong></label>
+                                                <input type="date" class="form-control1" id="expiry_date_contactlenssolution" name="expiry_date_contactlenssolution" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Supplier</strong></label>
+                                                <input type="text" class="form-control1" id="supplier_contactlenssolution" name="supplier_contactlenssolution" placeholder="Enter supplier" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Current Stock</strong></label>
+                                                <input type="number" class="form-control1" id="current_stock_contactlenssolution" name="current_stock_contactlenssolution" placeholder="Enter current stock" required>
+                                            </div>
+                                        </div>
+                                        <!-- Repair Kits Fields -->
+                                        <div id="repairkit_fields" class="product-section" style="display: none;">
+                                            <h6 class="mb-4 mt-4 font-weight-bold"><i class="fas fa-tools mr-2"></i>Repair Kit Fields</h6>
+                                            <div class="form-group">
+                                                <label><strong>Brand</strong></label>
+                                                <input type="text" class="form-control1" id="brand_repairkit" name="brand_repairkit" placeholder="Enter brand" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Product Name</strong></label>
+                                                <input type="text" class="form-control1" id="product_name_repairkit" name="product_name_repairkit" placeholder="Enter product name" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Included Item</strong></label>
+                                                <input type="text" class="form-control1" id="included_items" name="included_items" placeholder="Enter included items" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Screwdriver Type</strong></label>
+                                                <input type="text" class="form-control1" id="screwdriver_type" name="screwdriver_type" placeholder="Enter screwdriver type" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Screwdriver Sizes</strong></label>
+                                                <input type="text" class="form-control1" id="screw_sizes" name="screw_sizes" placeholder="Enter screw sizes" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Compatible Frame Types</strong></label>
+                                                <input type="text" class="form-control1" id="compatible_frame_types" name="compatible_frame_types" placeholder="Enter compatible frame types" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Case Included</strong></label>
+                                                <input type="text" class="form-control1" id="case_included" name="case_included" placeholder="Enter yer or no" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Price</strong></label>
+                                                <input type="number" class="form-control1" id="price_repairkit" name="price_repairkit" placeholder="₱" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Added Date</strong></label>
+                                                <input type="date" class="form-control1" id="added_date_repairkit" name="added_date_repairkit" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Supplier</strong></label>
+                                                <input type="text" class="form-control1" id="supplier_repairkit" name="supplier_repairkit" placeholder="Enter supplier" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Current Stock</strong></label>
+                                                <input type="number" class="form-control1" id="current_stock_repairkit" name="current_stock_repairkit" placeholder="Enter current stock" required>
+                                            </div>
+                                        </div>
+                                        <!-- Clipon Fields -->
+                                        <div id="cliponlens_fields" class="product-section" style="display: none;">
+                                            <h6 class="mb-4 mt-4 font-weight-bold"><i class="fas fa-eye mr-2"></i>Clip-on Lens Fields</h6>
+                                            <div class="form-group">
+                                                <label><strong>Brand</strong></label>
+                                                <input type="text" class="form-control1" id="brand_clipon" name="brand_clipon" placeholder="Enter brand" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Model Name</strong></label>
+                                                <input type="text" class="form-control1" id="model_name_clipon" name="model_name_clipon" placeholder="Enter model name" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Lens Type</strong></label>
+                                                <input type="text" class="form-control1" id="lens_type_clipon" name="lens_type_clipon" placeholder="Enter lens type" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Lens Color</strong></label>
+                                                <input type="text" class="form-control1" id="lens_color_clipon" name="lens_color_clipon" placeholder="Enter lens color" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Lens Shape</strong></label>
+                                                <input type="text" class="form-control1" id="lens_shape" name="lens_shape" placeholder="Enter lens shape" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Material</strong></label>
+                                                <input type="text" class="form-control1" id="material_clipon" name="material_clipon" placeholder="Enter material" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Price</strong></label>
+                                                <input type="number" class="form-control1" id="price_clipon" name="price_clipon" placeholder="₱" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Added Date</strong></label>
+                                                <input type="date" class="form-control1" id="added_date_clipon" name="added_date_clipon" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Supplier</strong></label>
+                                                <input type="text" class="form-control1" id="supplier_clipon" name="supplier_clipon" placeholder="Enter supplier" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Current Stock</strong></label>
+                                                <input type="number" class="form-control1" id="current_stock_clipon" name="current_stock_clipon" placeholder="Enter current stock" required>
+                                            </div>
+                                        </div>
+                                        <!-- Frame Accessory Fields -->
+                                        <div id="frameaccessory_fields" class="product-section" style="display: none;">
+                                            <h6 class="mb-4 mt-4 font-weight-bold"><i class="fas fa-link mr-2"></i>Frame Accessory Fields</h6>
+                                            <div class="form-group">
+                                                <label><strong>Accessory Type</strong></label>
+                                                <input type="text" class="form-control1" id="accessory_type" name="accessory_type" placeholder="Enter accessory type" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Brand</strong></label>
+                                                <input type="text" class="form-control1" id="brand_frameaccessory" name="brand_frameaccessory" placeholder="Enter brand" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Product Name</strong></label>
+                                                <input type="text" class="form-control1" id="product_name_frameaccessory" name="product_name_frameaccessory" placeholder="Enter product name" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Material</strong></label>
+                                                <input type="text" class="form-control1" id="material_frameaccessory" name="material_frameaccessory" placeholder="Enter material" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Color</strong></label>
+                                                <input type="text" class="form-control1" id="color_frameaccessory" name="color_frameaccessory" placeholder="Enter color" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Price</strong></label>
+                                                <input type="number" class="form-control1" id="price_frameaccessory" name="price_frameaccessory" placeholder="₱" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Added Date</strong></label>
+                                                <input type="date" class="form-control1" id="added_date_frameaccessory" name="added_date_frameaccessory" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Supplier</strong></label>
+                                                <input type="text" class="form-control1" id="supplier_frameaccessory" name="supplier_frameaccessory" placeholder="Enter supplier" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Current Stock</strong></label>
+                                                <input type="number" class="form-control1" id="current_stock_frameaccessory" name="current_stock_frameaccessory" placeholder="Enter current stock" required>
+                                            </div>
+                                        </div>
+                                        <!-- Submit Button -->
+                                        <div class="text-center mt-4">
+                                            <button type="submit" class="btn btn-success px-4">Save Product</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="add-ons" class="service-tab" style="display:none;">
+                        <div class="container mt-4">
+                            <div class="card shadow mt-2 mb-4">
+                                <div class="card-header text-center">
+                                    <h5 class="mb-0 font-weight-bold"><strong>Add New Lens</strong></h5>
+                                </div>
+                                <div class="card-body">
+                                    <form id="addServiceFormNewLensProduct" method="POST" action="/add_new_lens">
+                                        <!-- Product Type Selector -->
+                                        <div class="form-group mb-2">
+                                            <label><strong>Lens Type</strong></label>
+                                            <div class="dropdown" onmouseover="this.querySelector('.dropdown-menu').classList.add('show')"
+                                                 onmouseleave="this.querySelector('.dropdown-menu').classList.remove('show')">
+                                                <button class="btn btn-secondary dropdown-toggle w-100" type="button" id="lensaddonTypeDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Select Lens Type
+                                                </button>
+                                                <div class="dropdown-menu w-100" aria-labelledby="lensaddonTypeDropdown" style="max-height: 300px; overflow-y: auto;">
+                                                    <a class="dropdown-item" href="#" onclick="selectLensaddonType('antiradiationcoating')">Anti-Radiation Coating</a>
+                                                    <a class="dropdown-item" href="#" onclick="selectLensaddonType('antireflectivecoating')">Anti-Reflective Coating</a>
+                                                    <a class="dropdown-item" href="#" onclick="selectLensaddonType('photochromic')">Photochromic</a>
+                                                    <a class="dropdown-item" href="#" onclick="selectLensaddonType('tinted')">Tinted / Colored Lenses</a>
+                                                    <a class="dropdown-item" href="#" onclick="selectLensaddonType('progressive')">Progressive Lenses</a>
+                                                </div>
+                                                <input type="hidden" id="lensaddon_type" name="lensaddon_type" required>
+                                            </div>
+                                        </div>
+
+                                         <!-- AntiRadiation Fields -->
+                                        <div id="antiradiationcoating_fields" class="lensaddon-section" style="display: none;">
+                                            <h6 class="mb-4 mt-4 font-weight-bold"><i class="fas fa-radiation mr-2"></i>Anti-Radiation Coating Fields</h6>
+                                            <div class="form-group">
+                                                <label><strong>Brand</strong></label>
+                                                <input type="text" class="form-control1" id="brand_antirad" name="brand_antirad" placeholder="Enter brand" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Model Name</strong></label>
+                                                <input type="text" class="form-control1" id="model_name_antirad" name="model_name_antirad" placeholder="Enter model name" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Color Tint</strong></label>
+                                                <input type="text" class="form-control1" id="color_tint" name="color_tint" placeholder="Enter color tint" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Warranty Period</strong></label>
+                                                <input type="text" class="form-control1" id="warranty_period" name="warranty_period" placeholder="Enter warranty period" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Applicable Lens Type</strong></label>
+                                                <input type="text" class="form-control1" id="applicable_lens_types" name="applicable_lens_types" placeholder="Enter applicable lens types" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Protection Type</strong></label>
+                                                <input type="text" class="form-control1" id="protection_type" name="protection_type" placeholder="Enter protection type" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Transmittance Rate</strong></label>
+                                                <input type="number" class="form-control1" id="transmittance_rate" name="transmittance_rate" placeholder="Enter transmittance rate" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Price</strong></label>
+                                                <input type="number" class="form-control1" id="price_antirad" name="price_antirad" placeholder="₱" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Added Date</strong></label>
+                                                <input type="date" class="form-control1" id="added_date_antirad" name="added_date_antirad" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Supplier</strong></label>
+                                                <input type="text" class="form-control1" id="supplier_antirad" name="supplier_antirad" placeholder="Enter supplier" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Current Stock</strong></label>
+                                                <input type="number" class="form-control1" id="current_stock_antirad" name="current_stock_antirad" placeholder="Enter current stock" required>
+                                            </div>
+                                        </div>
+                                          <!-- AntiReflective Fields -->
+                                        <div id="antireflectivecoating_fields" class="lensaddon-section" style="display: none;">
+                                            <h6 class="mb-4 mt-4 font-weight-bold"><i class="fas fa-star mr-2"></i>Anti-Reflective Coating Fields</h6>
+                                            <div class="form-group">
+                                                <label><strong>Brand</strong></label>
+                                                <input type="text" class="form-control1" id="brand_antiref" name="brand_antiref" placeholder="Enter brand" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Model Name</strong></label>
+                                                <input type="text" class="form-control1" id="model_name_antiref" name="model_name_antiref" placeholder="Enter model name" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Color Tint</strong></label>
+                                                <input type="text" class="form-control1" id="color_tint_antiref" name="color_tint_antiref" placeholder="Enter color tint" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Reflectance Level</strong></label>
+                                                <input type="text" class="form-control1" id="reflectance_level" name="warranty_period" placeholder="Enter reflectance level" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Compatible Lens Type</strong></label>
+                                                <input type="text" class="form-control1" id="compatible_lens_types_antiref" name="compatible_lens_types_antiref" placeholder="Enter compatible lens types" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Warranty Period</strong></label>
+                                                <input type="text" class="form-control1" id="warranty_period_antiref" name="warranty_period_antiref" placeholder="Enter warranty period" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Price</strong></label>
+                                                <input type="number" class="form-control1" id="price_antiref" name="price_antiref" placeholder="₱" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Added Date</strong></label>
+                                                <input type="date" class="form-control1" id="added_date_antiref" name="added_date_antiref" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Supplier</strong></label>
+                                                <input type="text" class="form-control1" id="supplier_antiref" name="supplier_antiref" placeholder="Enter supplier" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Current Stock</strong></label>
+                                                <input type="number" class="form-control1" id="current_stock_antiref" name="current_stock_antiref" placeholder="Enter current stock" required>
+                                            </div>
+                                        </div>
+                                         <!-- Photochromic Fields -->
+                                        <div id="photochromic_fields" class="lensaddon-section" style="display: none;">
+                                            <h6 class="mb-4 mt-4 font-weight-bold"><i class="fas fa-sync-alt mr-2"></i>Photochromic (Transition) Fields</h6>
+                                            <div class="form-group">
+                                                <label><strong>Brand</strong></label>
+                                                <input type="text" class="form-control1" id="brand_photo" name="brand_photo" placeholder="Enter brand" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Product Name</strong></label>
+                                                <input type="text" class="form-control1" id="product_name_photo" name="product_name_photo" placeholder="Enter product name" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Material</strong></label>
+                                                <input type="text" class="form-control1" id="material_photo" name="material_photo" placeholder="Enter material" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Index of Refraction</strong></label>
+                                                <input type="number" class="form-control1" id="index_of_refraction" name="index_of_refraction" placeholder="Enter index of refraction" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>UV Protection (%)</strong></label>
+                                                <input type="text" class="form-control1" id="uv_protection" name="uv_protection" placeholder="Enter percent (%) of UV" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Color Tint</strong></label>
+                                                <input type="text" class="form-control1" id="color_tint_photo" name="color_tint_photo" placeholder="Enter color tint" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Activation Method</strong></label>
+                                                <input type="text" class="form-control1" id="activation_method" name="activation_method" placeholder="Enter activation method" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Indoor Transparency</strong></label>
+                                                <input type="text" class="form-control1" id="indoor_transparency" name="indoor_transparency" placeholder="Enter indoor transparency" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Outdoor Darkness</strong></label>
+                                                <input type="text" class="form-control1" id="outdoor_darkness" name="outdoor_darkness" placeholder="Enter outdoor darkness" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Available Prescription Range</strong></label>
+                                                <input type="text" class="form-control1" id="available_prescription_range" name="available_prescription_range" placeholder="Enter available prescription range" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Price</strong></label>
+                                                <input type="number" class="form-control1" id="price_photo" name="price_photo" placeholder="₱" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Added Date</strong></label>
+                                                <input type="date" class="form-control1" id="added_date_photo" name="added_date_photo" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Supplier</strong></label>
+                                                <input type="text" class="form-control1" id="supplier_photo" name="supplier_photo" placeholder="Enter supplier" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Current Stock</strong></label>
+                                                <input type="number" class="form-control1" id="current_stock_photo" name="current_stock_photo" placeholder="Enter current stock" required>
+                                            </div>
+                                        </div>
+                                           <!-- Tinted Fields -->
+                                        <div id="tinted_fields" class="lensaddon-section" style="display: none;">
+                                            <h6 class="mb-4 mt-4 font-weight-bold"><i class="fas fa-adjust mr-2"></i>Tinted/Colored Lenses Fields</h6>
+                                            <div class="form-group">
+                                                <label><strong>Brand</strong></label>
+                                                <input type="text" class="form-control1" id="brand_tinted" name="brand_tinted" placeholder="Enter brand" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Model Name</strong></label>
+                                                <input type="text" class="form-control1" id="model_name_tinted" name="model_name_tinted" placeholder="Enter model name" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Lens Type</strong></label>
+                                                <input type="text" class="form-control1" id="lens_type_tinted" name="lens_type_tinted" placeholder="Enter lens type" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Color</strong></label>
+                                                <input type="text" class="form-control1" id="color_tinted" name="color_tinted" placeholder="Enter color" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Lens Count</strong></label>
+                                                <input type="number" class="form-control1" id="lens_count" name="lens_count" placeholder="Enter number of lens" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Tint Type</strong></label>
+                                                <input type="text" class="form-control1" id="tint_type" name="tint_type" placeholder="Enter tint type" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Color Intensity</strong></label>
+                                                <input type="text" class="form-control1" id="color_intensity" name="color_intensity" placeholder="Enter color intensity" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>UV Blocking</strong></label>
+                                                <input type="text" class="form-control1" id="uv_blocking" name="uv_blocking" placeholder="Enter yes or no" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Price per Box</strong></label>
+                                                <input type="number" class="form-control1" id="price_per_box_tinted" name="price_per_box_tinted" placeholder="₱" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Added Date</strong></label>
+                                                <input type="date" class="form-control1" id="added_date_tinted" name="added_date_tinted" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Supplier</strong></label>
+                                                <input type="text" class="form-control1" id="supplier_tinted" name="supplier_tinted" placeholder="Enter supplier" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Current Stock</strong></label>
+                                                <input type="number" class="form-control1" id="current_stock_tinted" name="current_stock_tinted" placeholder="Enter current stock" required>
+                                            </div>
+                                        </div>
+                                           <!-- Progressive Fields -->
+                                        <div id="progressive_fields" class="lensaddon-section" style="display: none;">
+                                            <h6 class="mb-4 mt-4 font-weight-bold"><i class="fas fa-arrows-alt-v mr-2"></i>Progressive Lenses Fields</h6>
+                                            <div class="form-group">
+                                                <label><strong>Brand</strong></label>
+                                                <input type="text" class="form-control1" id="brand_pro" name="brand_pro" placeholder="Enter brand" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Model Name</strong></label>
+                                                <input type="text" class="form-control1" id="model_name_pro" name="model_name_pro" placeholder="Enter model name" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Material</strong></label>
+                                                <input type="text" class="form-control1" id="material_pro" name="material_pro" placeholder="Enter material" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Coating</strong></label>
+                                                <input type="text" class="form-control1" id="coating" name="coating" placeholder="Enter coating" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>UV Protection</strong></label>
+                                                <input type="text" class="form-control1" id="uv_protection_pro" name="uv_protection_pro" placeholder="Enter yes or no" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Blue Light Filter</strong></label>
+                                                <input type="text" class="form-control1" id="blue_light_filter" name="blue_light_filter" placeholder="Enter yes or no" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Color Tint</strong></label>
+                                                <input type="text" class="form-control1" id="color_tint_pro" name="color_tint_pro" placeholder="Enter color tint" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Warranty Period</strong></label>
+                                                <input type="text" class="form-control1" id="warranty_period_pro" name="warranty_period_pro" placeholder="Enter warranty_period" required>
+                                            </div>
+                                            <div class="form-group3">
+                                                <label><strong>Photochromic</strong></label>
+                                                <input type="text" class="form-control1" id="photochromic_pro" name="photochromic_pro" placeholder="Enter yes or no" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Frame Compatibility</strong></label>
+                                                <input type="text" class="form-control1" id="frame_compatibility" name="frame_compatibility" placeholder="Enter frame compatibility" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Price per Pair</strong></label>
+                                                <input type="number" class="form-control1" id="price_per_pair" name="price_per_pair" placeholder="₱" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Added Date</strong></label>
+                                                <input type="date" class="form-control1" id="added_date_pro" name="added_date_pro" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Supplier</strong></label>
+                                                <input type="text" class="form-control1" id="supplier_pro" name="supplier_pro" placeholder="Enter supplier" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><strong>Current Stock</strong></label>
+                                                <input type="number" class="form-control1" id="current_stock_pro" name="current_stock_pro" placeholder="Enter current stock" required>
+                                            </div>
+                                        </div>
+                                        <!-- Submit Button -->
+                                        <div class="text-center mt-4">
+                                            <button type="submit" class="btn btn-success px-4">Save Product</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Bootstrap (with Popper for modal) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="static/vendor/jquery/jquery.min.js"></script>
+    <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="static/js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="static/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="static/js/demo/datatables-demo.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+     <script>
+      function switchTab(tabId) {
+        // Deactivate all tabs and panes
+        document.querySelectorAll('.tab-pane').forEach(el => {
+          el.classList.remove('show', 'active');
+        });
+
+        // Activate target tab pane
+        const target = document.getElementById(tabId);
+        if (target) {
+          target.classList.add('show', 'active');
+        }
+
+        // Optional: activate matching nav link (if any)
+        document.querySelectorAll('.nav-link').forEach(el => {
+          el.classList.remove('active');
+        });
+
+        const navLink = document.querySelector(`.nav-link[href="#${tabId}"]`);
+        if (navLink) {
+          navLink.classList.add('active');
+        }
+      }
+    </script>
+
+    <script>
+        function showTab(tabId) {
+          // Hide all service-tab divs
+          document.querySelectorAll('.service-tab').forEach(tab => tab.style.display = 'none');
+
+          // Show the selected tab
+          document.getElementById(tabId).style.display = 'block';
+
+          // Remove 'active' class from all main category buttons
+          document.querySelectorAll('.btn-secondary1').forEach(btn => btn.classList.remove('active'));
+
+          // Add 'active' class to the clicked button
+          event.target.classList.add('active');
+
+          // Optional: scroll into view if needed
+          // document.getElementById(tabId).scrollIntoView({ behavior: "smooth" });
+        }
+    </script>
+
+    <script>
+      function selectProductType(type) {
+        // Update dropdown button text
+        document.getElementById('productTypeDropdown').textContent = type;
+
+        // Set hidden input value
+        const productTypeInput = document.getElementById('product_type');
+        productTypeInput.value = type;
+
+        // Hide all product sections and disable their inputs
+        const sections = document.querySelectorAll('.product-section');
+        sections.forEach(section => {
+          section.style.display = 'none';
+          const inputs = section.querySelectorAll('input, select, textarea');
+          inputs.forEach(input => input.disabled = true);
+        });
+
+        // Show selected product section and enable its inputs
+        const sectionId = `${type.replace(/\s+/g, '_').toLowerCase()}_fields`;
+        const selectedSection = document.getElementById(sectionId);
+        if (selectedSection) {
+          selectedSection.style.display = 'block';
+          const inputs = selectedSection.querySelectorAll('input, select, textarea');
+          inputs.forEach(input => input.disabled = false);
+        }
+      }
+   </script>
+
+   <script>
+      function selectLensaddonType(type) {
+        // Update dropdown button text
+        document.getElementById('lensaddonTypeDropdown').textContent = type;
+
+        // Set hidden input value
+        const lensaddonTypeInput = document.getElementById('lensaddon_type');
+        lensaddonTypeInput.value = type;
+
+        // Hide all product sections and disable their inputs
+        const sections = document.querySelectorAll('.lensaddon-section');
+        sections.forEach(section => {
+          section.style.display = 'none';
+          const inputs = section.querySelectorAll('input, select, textarea');
+          inputs.forEach(input => input.disabled = true);
+        });
+
+        // Show selected product section and enable its inputs
+        const sectionId = `${type.replace(/\s+/g, '_').toLowerCase()}_fields`;
+        const selectedSection = document.getElementById(sectionId);
+        if (selectedSection) {
+          selectedSection.style.display = 'block';
+          const inputs = selectedSection.querySelectorAll('input, select, textarea');
+          inputs.forEach(input => input.disabled = false);
+        }
+      }
+   </script>
+
+</body>
+</html>
